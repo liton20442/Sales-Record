@@ -1,1 +1,2569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               viewport-fit=cover">
+
+<meta name="theme-color" content="#0f766e">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sales Record">
+
+<link rel="apple-touch-icon" href="icon-180.png">
+
+<title>Sales Record</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f3f7f7;
+  color:#172020;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+.app{
+  max-width:1100px;
+  margin:auto;
+  min-height:100vh;
+}
+
+header{
+  background:#0f766e;
+  color:white;
+  padding:
+    calc(14px + env(safe-area-inset-top))
+    16px
+    14px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+
+.header-title{
+  font-size:24px;
+  font-weight:700;
+}
+
+.header-subtitle{
+  font-size:13px;
+  opacity:.9;
+  margin-top:3px;
+}
+
+nav{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:10px;
+  background:white;
+  border-bottom:1px solid #dce5e5;
+  position:sticky;
+  top:75px;
+  z-index:19;
+}
+
+nav button{
+  border:0;
+  background:#e8f2f1;
+  color:#0f766e;
+  padding:10px 15px;
+  border-radius:9px;
+  white-space:nowrap;
+  font-weight:600;
+  cursor:pointer;
+}
+
+nav button.active{
+  background:#0f766e;
+  color:white;
+}
+
+main{
+  padding:14px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.card{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.card h2{
+  margin:0 0 14px;
+  font-size:20px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.field.full{
+  grid-column:1 / -1;
+}
+
+.field label{
+  font-size:14px;
+  font-weight:600;
+  color:#425050;
+}
+
+input,
+select{
+  width:100%;
+  min-height:46px;
+  border:1px solid #cbd8d8;
+  border-radius:9px;
+  padding:10px 12px;
+  background:white;
+  color:#172020;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:#0f766e;
+  box-shadow:0 0 0 2px rgba(15,118,110,.12);
+}
+
+.total-box{
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  padding:10px 12px;
+  border-radius:9px;
+  background:#edf7f6;
+  color:#0f766e;
+  font-weight:700;
+  font-size:17px;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:11px 16px;
+  min-height:44px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:#0f766e;
+  color:white;
+}
+
+.btn-secondary{
+  background:#e7eeee;
+  color:#244040;
+}
+
+.btn-danger{
+  background:#dc3545;
+  color:white;
+}
+
+.btn-small{
+  padding:7px 10px;
+  min-height:36px;
+  font-size:13px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.stat{
+  background:white;
+  border-radius:14px;
+  padding:18px 14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.stat-title{
+  color:#607070;
+  font-size:13px;
+}
+
+.stat-value{
+  color:#0f766e;
+  font-size:25px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:760px;
+}
+
+th,
+td{
+  padding:10px 8px;
+  border-bottom:1px solid #e1e8e8;
+  text-align:left;
+  font-size:14px;
+  white-space:nowrap;
+}
+
+th{
+  background:#edf5f4;
+  color:#315050;
+  font-weight:700;
+}
+
+.empty{
+  text-align:center;
+  padding:25px 10px;
+  color:#718080;
+}
+
+.search-row{
+  display:grid;
+  grid-template-columns:1fr 180px;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.report-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.report-total{
+  background:#0f766e;
+  color:white;
+  border-radius:12px;
+  padding:16px;
+}
+
+.report-total .label{
+  font-size:13px;
+  opacity:.9;
+}
+
+.report-total .value{
+  font-size:25px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.customer-list{
+  display:grid;
+  gap:8px;
+}
+
+.customer-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border:1px solid #dce5e5;
+  border-radius:9px;
+}
+
+.customer-name{
+  font-weight:700;
+}
+
+.customer-count{
+  font-size:13px;
+  color:#667575;
+}
+
+.note{
+  background:#f1f7f7;
+  border-left:4px solid #0f766e;
+  padding:10px 12px;
+  border-radius:5px;
+  font-size:13px;
+  color:#4d5d5d;
+}
+
+.file-input{
+  display:none;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translateX(-50%);
+  background:#172020;
+  color:white;
+  padding:11px 16px;
+  border-radius:9px;
+  z-index:100;
+  display:none;
+  max-width:90%;
+  text-align:center;
+}
+
+@media(max-width:700px){
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .search-row{
+    grid-template-columns:1fr;
+  }
+
+  .report-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:430px){
+  main{
+    padding:10px;
+  }
+
+  .card{
+    padding:13px;
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat{
+    padding:14px 10px;
+  }
+
+  .stat-value{
+    font-size:21px;
+  }
+
+  .header-title{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="header-title">Sales Record</div>
+  <div class="header-subtitle">Electronic Parts Sales Management</div>
+</header>
+
+<nav>
+  <button class="nav-btn active" data-page="dashboardPage">
+    Dashboard
+  </button>
+
+  <button class="nav-btn" data-page="salesPage">
+    Sales
+  </button>
+
+  <button class="nav-btn" data-page="viewPage">
+    View
+  </button>
+
+  <button class="nav-btn" data-page="customerPage">
+    Customers
+  </button>
+
+  <button class="nav-btn" data-page="reportPage">
+    Reports
+  </button>
+
+  <button class="nav-btn" data-page="backupPage">
+    Backup
+  </button>
+</nav>
+
+<main>
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboardPage" class="page active">
+
+  <div class="dashboard-grid">
+
+    <div class="stat">
+      <div class="stat-title">Total Sales</div>
+      <div class="stat-value" id="dashboardSales">0.00</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Total Quantity</div>
+      <div class="stat-value" id="dashboardQuantity">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Sales Entries</div>
+      <div class="stat-value" id="dashboardEntries">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Customers</div>
+      <div class="stat-value" id="dashboardCustomers">0</div>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h2>Quick Sale</h2>
+
+    <p class="note">
+      Add a new electronic-parts sale from the Sales section.
+    </p>
+
+    <div class="actions">
+      <button class="btn btn-primary"
+              onclick="showPage('salesPage')">
+        New Sale
+      </button>
+
+      <button class="btn btn-secondary"
+              onclick="showPage('viewPage')">
+        View Sales
+      </button>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ================= SALES ================= -->
+
+<section id="salesPage" class="page">
+
+  <div class="card">
+
+    <h2>New Sale</h2>
+
+    <div class="form-grid">
+
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="saleDate">
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <input
+          type="text"
+          id="saleCategory"
+          list="categorySuggestions"
+          placeholder="Category">
+        <datalist id="categorySuggestions"></datalist>
+      </div>
+
+      <div class="field">
+        <label>Part Name</label>
+        <input
+          type="text"
+          id="salePartName"
+          list="partSuggestions"
+          placeholder="Part Name"
+          autocomplete="off">
+
+        <datalist id="partSuggestions"></datalist>
+      </div>
+
+      <div class="field">
+        <label>Quantity</label>
+        <input
+          type="text"
+          inputmode="decimal"
+          id="saleQuantity"
+          placeholder="Quantity">
+      </div>
+
+      <div class="field">
+        <label>Rate</label>
+        <input
+          type="text"
+          inputmode="decimal"
+          id="saleRate"
+          list="rateSuggestions"
+          placeholder="Rate">
+
+        <datalist id="rateSuggestions"></datalist>
+      </div>
+
+      <div class="field">
+        <label>Total</label>
+        <div class="total-box" id="saleTotal">
+          0.00
+        </div>
+      </div>
+
+      <div class="field full">
+        <label>Customer</label>
+
+        <select id="saleCustomer">
+          <option value="">Select Customer</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="btn btn-primary"
+              onclick="saveSale()">
+        Save Sale
+      </button>
+
+      <button class="btn btn-secondary"
+              onclick="clearSaleForm()">
+        Clear
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= VIEW ================= -->
+
+<section id="viewPage" class="page">
+
+  <div class="card">
+
+    <h2>Sales Records</h2>
+
+    <div class="search-row">
+
+      <input
+        type="search"
+        id="viewSearch"
+        placeholder="Search Part Name or Customer">
+
+      <input
+        type="date"
+        id="viewDateFilter">
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Part Name</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Total</th>
+            <th>Customer</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="salesTableBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CUSTOMERS ================= -->
+
+<section id="customerPage" class="page">
+
+  <div class="card">
+
+    <h2>Customer List</h2>
+
+    <div class="form-grid">
+
+      <div class="field">
+        <label>Customer Name</label>
+        <input
+          type="text"
+          id="customerName"
+          placeholder="Customer Name">
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="btn btn-primary"
+              onclick="addCustomer()">
+        Add Customer
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Customers</h2>
+
+    <div id="customerList"
+         class="customer-list"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= REPORT ================= -->
+
+<section id="reportPage" class="page">
+
+  <div class="card">
+
+    <h2>Sales Report</h2>
+
+    <div class="field">
+
+      <label>Customer</label>
+
+      <select id="reportCustomer"
+              onchange="renderReport()">
+
+        <option value="ALL">
+          All Customers
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <div class="report-grid">
+
+    <div class="report-total">
+
+      <div class="label">
+        Total Quantity
+      </div>
+
+      <div class="value"
+           id="reportQuantity">
+        0
+      </div>
+
+    </div>
+
+    <div class="report-total">
+
+      <div class="label">
+        Grand Total
+      </div>
+
+      <div class="value"
+           id="reportGrandTotal">
+        0.00
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-top:14px;">
+
+    <h2>Category Summary</h2>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Total Quantity</th>
+            <th>Total Sales</th>
+          </tr>
+        </thead>
+
+        <tbody id="reportTableBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= BACKUP ================= -->
+
+<section id="backupPage" class="page">
+
+  <div class="card">
+
+    <h2>Backup & Restore</h2>
+
+    <p class="note">
+      Backup saves your sales records and customer list.
+      Restore can bring the saved data back into the app.
+    </p>
+
+    <div class="actions">
+
+      <button class="btn btn-primary"
+              onclick="backupData()">
+        Backup
+      </button>
+
+      <button class="btn btn-secondary"
+              onclick="document.getElementById('restoreFile').click()">
+        Restore
+      </button>
+
+      <input
+        type="file"
+        id="restoreFile"
+        class="file-input"
+        accept=".json,application/json"
+        onchange="restoreData(event)">
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   SALES RECORD
+   Local Storage
+   ===================================================== */
+
+const STORAGE_KEY = "salesRecordDataV1";
+
+
+let appData = {
+  sales: [],
+  customers: []
+};
+
+
+/* =====================================================
+   LOAD DATA
+   ===================================================== */
+
+function loadData(){
+
+  try{
+
+    const saved =
+      localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+
+      const parsed =
+        JSON.parse(saved);
+
+      if(parsed &&
+         Array.isArray(parsed.sales) &&
+         Array.isArray(parsed.customers)){
+
+        appData = parsed;
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =====================================================
+   SAVE DATA
+   ===================================================== */
+
+function saveData(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(appData)
+  );
+
+}
+
+
+/* =====================================================
+   PAGE NAVIGATION
+   ===================================================== */
+
+function showPage(pageId){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+
+      page.classList.remove("active");
+
+    });
+
+
+  const page =
+    document.getElementById(pageId);
+
+  if(page){
+    page.classList.add("active");
+  }
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(button => {
+
+      button.classList.remove("active");
+
+      if(button.dataset.page === pageId){
+        button.classList.add("active");
+      }
+
+    });
+
+
+  if(pageId === "dashboardPage"){
+    renderDashboard();
+  }
+
+  if(pageId === "viewPage"){
+    renderSalesTable();
+  }
+
+  if(pageId === "customerPage"){
+    renderCustomers();
+  }
+
+  if(pageId === "reportPage"){
+    renderReport();
+  }
+
+}
+
+
+/* =====================================================
+   NAV BUTTONS
+   ===================================================== */
+
+document
+  .querySelectorAll(".nav-btn")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      showPage(button.dataset.page);
+
+    });
+
+  });
+
+
+/* =====================================================
+   DATE
+   ===================================================== */
+
+function getToday(){
+
+  const d = new Date();
+
+  const year =
+    d.getFullYear();
+
+  const month =
+    String(d.getMonth() + 1)
+      .padStart(2,"0");
+
+  const day =
+    String(d.getDate())
+      .padStart(2,"0");
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+let currentSaleDate = getToday();
+
+
+function setInitialDate(){
+
+  const input =
+    document.getElementById("saleDate");
+
+  input.value = currentSaleDate;
+
+}
+
+
+document
+  .getElementById("saleDate")
+  .addEventListener("change", function(){
+
+    if(this.value){
+
+      currentSaleDate =
+        this.value;
+
+    }
+
+  });
+
+
+/* =====================================================
+   NUMBER
+   ===================================================== */
+
+function numberValue(value){
+
+  const n =
+    parseFloat(
+      String(value)
+        .replace(/,/g,"")
+        .trim()
+    );
+
+  return Number.isFinite(n)
+    ? n
+    : 0;
+
+}
+
+
+/* =====================================================
+   SALE TOTAL
+   ===================================================== */
+
+function updateSaleTotal(){
+
+  const quantity =
+    numberValue(
+      document.getElementById(
+        "saleQuantity"
+      ).value
+    );
+
+  const rate =
+    numberValue(
+      document.getElementById(
+        "saleRate"
+      ).value
+    );
+
+  const total =
+    quantity * rate;
+
+  document.getElementById(
+    "saleTotal"
+  ).textContent =
+    total.toFixed(2);
+
+}
+
+
+document
+  .getElementById("saleQuantity")
+  .addEventListener(
+    "input",
+    updateSaleTotal
+  );
+
+
+document
+  .getElementById("saleRate")
+  .addEventListener(
+    "input",
+    updateSaleTotal
+  );
+
+
+/* =====================================================
+   CUSTOMER DROPDOWN
+   ===================================================== */
+
+function renderCustomerDropdown(){
+
+  const select =
+    document.getElementById(
+      "saleCustomer"
+    );
+
+  const current =
+    select.value;
+
+  select.innerHTML =
+    `<option value="">
+       Select Customer
+     </option>`;
+
+
+  appData.customers
+    .forEach(customer => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        customer;
+
+      option.textContent =
+        customer;
+
+      select.appendChild(option);
+
+    });
+
+
+  if(
+    appData.customers
+      .includes(current)
+  ){
+
+    select.value = current;
+
+  }
+
+}
+
+
+/* =====================================================
+   ADD CUSTOMER
+   ===================================================== */
+
+function addCustomer(){
+
+  const input =
+    document.getElementById(
+      "customerName"
+    );
+
+  const name =
+    input.value.trim();
+
+  if(!name){
+
+    showToast(
+      "Enter customer name."
+    );
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  const exists =
+    appData.customers.some(
+      customer =>
+        customer.toLowerCase() ===
+        name.toLowerCase()
+    );
+
+
+  if(exists){
+
+    showToast(
+      "Customer already exists."
+    );
+
+    return;
+
+  }
+
+
+  appData.customers.push(name);
+
+  appData.customers.sort(
+    (a,b) =>
+      a.localeCompare(
+        b,
+        undefined,
+        {
+          sensitivity:"base"
+        }
+      )
+  );
+
+
+  saveData();
+
+  input.value = "";
+
+  renderCustomers();
+
+  renderCustomerDropdown();
+
+  renderReportCustomer();
+
+  renderDashboard();
+
+  showToast(
+    "Customer added."
+  );
+
+}
+
+
+/* =====================================================
+   CUSTOMER LIST
+   ===================================================== */
+
+function renderCustomers(){
+
+  const container =
+    document.getElementById(
+      "customerList"
+    );
+
+  if(
+    appData.customers.length === 0
+  ){
+
+    container.innerHTML =
+      `<div class="empty">
+         No customers added yet.
+       </div>`;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  appData.customers
+    .forEach(customer => {
+
+      const count =
+        appData.sales.filter(
+          sale =>
+            sale.customer === customer
+        ).length;
+
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "customer-item";
+
+
+      row.innerHTML = `
+        <div>
+          <div class="customer-name">
+            ${escapeHtml(customer)}
+          </div>
+
+          <div class="customer-count">
+            ${count} sales
+          </div>
+        </div>
+
+        <button
+          class="btn btn-danger btn-small"
+          onclick="deleteCustomer('${escapeJs(customer)}')">
+          Delete
+        </button>
+      `;
+
+
+      container.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+   DELETE CUSTOMER
+   ===================================================== */
+
+function deleteCustomer(name){
+
+  const used =
+    appData.sales.some(
+      sale =>
+        sale.customer === name
+    );
+
+
+  if(used){
+
+    showToast(
+      "This customer has sales records and cannot be deleted."
+    );
+
+    return;
+
+  }
+
+
+  appData.customers =
+    appData.customers.filter(
+      customer =>
+        customer !== name
+    );
+
+
+  saveData();
+
+  renderCustomers();
+
+  renderCustomerDropdown();
+
+  renderReportCustomer();
+
+  renderDashboard();
+
+  showToast(
+    "Customer deleted."
+  );
+
+}
+
+
+/* =====================================================
+   SAVE SALE
+   ===================================================== */
+
+function saveSale(){
+
+  const date =
+    document.getElementById(
+      "saleDate"
+    ).value;
+
+  const category =
+    document.getElementById(
+      "saleCategory"
+    ).value.trim();
+
+  const partName =
+    document.getElementById(
+      "salePartName"
+    ).value.trim();
+
+  const quantity =
+    numberValue(
+      document.getElementById(
+        "saleQuantity"
+      ).value
+    );
+
+  const rate =
+    numberValue(
+      document.getElementById(
+        "saleRate"
+      ).value
+    );
+
+  const customer =
+    document.getElementById(
+      "saleCustomer"
+    ).value;
+
+
+  if(!date){
+
+    showToast(
+      "Select date."
+    );
+
+    return;
+
+  }
+
+
+  if(!category){
+
+    showToast(
+      "Enter category."
+    );
+
+    document
+      .getElementById(
+        "saleCategory"
+      )
+      .focus();
+
+    return;
+
+  }
+
+
+  if(!partName){
+
+    showToast(
+      "Enter part name."
+    );
+
+    document
+      .getElementById(
+        "salePartName"
+      )
+      .focus();
+
+    return;
+
+  }
+
+
+  if(quantity <= 0){
+
+    showToast(
+      "Enter valid quantity."
+    );
+
+    document
+      .getElementById(
+        "saleQuantity"
+      )
+      .focus();
+
+    return;
+
+  }
+
+
+  if(rate < 0){
+
+    showToast(
+      "Enter valid rate."
+    );
+
+    return;
+
+  }
+
+
+  const total =
+    quantity * rate;
+
+
+  appData.sales.push({
+
+    id:
+      Date.now().toString() +
+      Math.random()
+        .toString(36)
+        .slice(2),
+
+    date:date,
+
+    category:category,
+
+    partName:partName,
+
+    quantity:quantity,
+
+    rate:rate,
+
+    total:total,
+
+    customer:customer
+
+  });
+
+
+  saveData();
+
+
+  /*
+    Keep the selected date for the next entry.
+    Other fields are cleared.
+  */
+
+  currentSaleDate =
+    date;
+
+
+  clearSaleForm(
+    false
+  );
+
+
+  renderDashboard();
+
+  renderSalesTable();
+
+  renderReport();
+
+  showToast(
+    "Sale saved successfully."
+  );
+
+
+  document
+    .getElementById(
+      "salePartName"
+    )
+    .focus();
+
+}
+
+
+/* =====================================================
+   CLEAR SALE FORM
+   ===================================================== */
+
+function clearSaleForm(
+  resetDate = false
+){
+
+  document
+    .getElementById(
+      "saleCategory"
+    )
+    .value = "";
+
+  document
+    .getElementById(
+      "salePartName"
+    )
+    .value = "";
+
+  document
+    .getElementById(
+      "saleQuantity"
+    )
+    .value = "";
+
+  document
+    .getElementById(
+      "saleRate"
+    )
+    .value = "";
+
+  document
+    .getElementById(
+      "saleCustomer"
+    )
+    .value = "";
+
+
+  if(resetDate){
+
+    currentSaleDate =
+      getToday();
+
+  }
+
+
+  document
+    .getElementById(
+      "saleDate"
+    )
+    .value =
+      currentSaleDate;
+
+
+  updateSaleTotal();
+
+}
+
+
+/* =====================================================
+   SALES TABLE
+   ===================================================== */
+
+function renderSalesTable(){
+
+  const tbody =
+    document.getElementById(
+      "salesTableBody"
+    );
+
+
+  const search =
+    document
+      .getElementById(
+        "viewSearch"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const dateFilter =
+    document
+      .getElementById(
+        "viewDateFilter"
+      )
+      .value;
+
+
+  let sales =
+    [...appData.sales];
+
+
+  sales.sort(
+    (a,b) => {
+
+      if(a.date !== b.date){
+
+        return b.date.localeCompare(
+          a.date
+        );
+
+      }
+
+      return appData.sales
+        .indexOf(b)
+        -
+        appData.sales
+          .indexOf(a);
+
+    }
+  );
+
+
+  sales =
+    sales.filter(
+      sale => {
+
+        const searchMatch =
+          !search ||
+          sale.partName
+            .toLowerCase()
+            .includes(search) ||
+          sale.customer
+            .toLowerCase()
+            .includes(search) ||
+          sale.category
+            .toLowerCase()
+            .includes(search);
+
+
+        const dateMatch =
+          !dateFilter ||
+          sale.date === dateFilter;
+
+
+        return searchMatch &&
+               dateMatch;
+
+      }
+    );
+
+
+  tbody.innerHTML = "";
+
+
+  if(sales.length === 0){
+
+    tbody.innerHTML =
+      `<tr>
+         <td colspan="8"
+             class="empty">
+           No sales records found.
+         </td>
+       </tr>`;
+
+    return;
+
+  }
+
+
+  sales.forEach(
+    sale => {
+
+      const tr =
+        document.createElement("tr");
+
+
+      tr.innerHTML = `
+
+        <td>${escapeHtml(
+          sale.date
+        )}</td>
+
+        <td>${escapeHtml(
+          sale.category
+        )}</td>
+
+        <td>${escapeHtml(
+          sale.partName
+        )}</td>
+
+        <td>${formatNumber(
+          sale.quantity
+        )}</td>
+
+        <td>${formatMoney(
+          sale.rate
+        )}</td>
+
+        <td>${formatMoney(
+          sale.total
+        )}</td>
+
+        <td>${escapeHtml(
+          sale.customer || "-"
+        )}</td>
+
+        <td>
+          <button
+            class="btn btn-danger btn-small"
+            onclick="deleteSale('${escapeJs(sale.id)}')">
+            Delete
+          </button>
+        </td>
+
+      `;
+
+
+      tbody.appendChild(tr);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   DELETE SALE
+   ===================================================== */
+
+function deleteSale(id){
+
+  const sale =
+    appData.sales.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(!sale){
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+      "Delete this sales record?"
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  appData.sales =
+    appData.sales.filter(
+      item =>
+        item.id !== id
+    );
+
+
+  saveData();
+
+  renderSalesTable();
+
+  renderDashboard();
+
+  renderCustomers();
+
+  renderReport();
+
+  showToast(
+    "Sales record deleted."
+  );
+
+}
+
+
+/* =====================================================
+   VIEW SEARCH
+   ===================================================== */
+
+document
+  .getElementById(
+    "viewSearch"
+  )
+  .addEventListener(
+    "input",
+    renderSalesTable
+  );
+
+
+document
+  .getElementById(
+    "viewDateFilter"
+  )
+  .addEventListener(
+    "change",
+    renderSalesTable
+  );
+
+
+/* =====================================================
+   REPORT CUSTOMER
+   ===================================================== */
+
+function renderReportCustomer(){
+
+  const select =
+    document.getElementById(
+      "reportCustomer"
+    );
+
+  const current =
+    select.value || "ALL";
+
+
+  select.innerHTML =
+    `<option value="ALL">
+       All Customers
+     </option>`;
+
+
+  appData.customers
+    .forEach(customer => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        customer;
+
+      option.textContent =
+        customer;
+
+      select.appendChild(option);
+
+    });
+
+
+  if(
+    current === "ALL" ||
+    appData.customers.includes(
+      current
+    )
+  ){
+
+    select.value =
+      current;
+
+  }else{
+
+    select.value =
+      "ALL";
+
+  }
+
+}
+
+
+/* =====================================================
+   REPORT
+   ===================================================== */
+
+function renderReport(){
+
+  renderReportCustomer();
+
+
+  const selected =
+    document.getElementById(
+      "reportCustomer"
+    ).value;
+
+
+  let sales =
+    [...appData.sales];
+
+
+  if(selected !== "ALL"){
+
+    sales =
+      sales.filter(
+        sale =>
+          sale.customer === selected
+      );
+
+  }
+
+
+  let totalQuantity = 0;
+
+  let grandTotal = 0;
+
+
+  const categories = {};
+
+
+  sales.forEach(
+    sale => {
+
+      totalQuantity +=
+        sale.quantity;
+
+      grandTotal +=
+        sale.total;
+
+
+      if(
+        !categories[
+          sale.category
+        ]
+      ){
+
+        categories[
+          sale.category
+        ] = {
+          quantity:0,
+          total:0
+        };
+
+      }
+
+
+      categories[
+        sale.category
+      ].quantity +=
+        sale.quantity;
+
+
+      categories[
+        sale.category
+      ].total +=
+        sale.total;
+
+    }
+  );
+
+
+  document.getElementById(
+    "reportQuantity"
+  ).textContent =
+    formatNumber(
+      totalQuantity
+    );
+
+
+  document.getElementById(
+    "reportGrandTotal"
+  ).textContent =
+    formatMoney(
+      grandTotal
+    );
+
+
+  const tbody =
+    document.getElementById(
+      "reportTableBody"
+    );
+
+
+  tbody.innerHTML = "";
+
+
+  const categoryNames =
+    Object.keys(
+      categories
+    ).sort(
+      (a,b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity:"base"
+          }
+        )
+    );
+
+
+  if(
+    categoryNames.length === 0
+  ){
+
+    tbody.innerHTML =
+      `<tr>
+         <td colspan="3"
+             class="empty">
+           No report data found.
+         </td>
+       </tr>`;
+
+    return;
+
+  }
+
+
+  categoryNames.forEach(
+    category => {
+
+      const item =
+        categories[category];
+
+
+      const tr =
+        document.createElement("tr");
+
+
+      tr.innerHTML = `
+
+        <td>${escapeHtml(
+          category
+        )}</td>
+
+        <td>${formatNumber(
+          item.quantity
+        )}</td>
+
+        <td>${formatMoney(
+          item.total
+        )}</td>
+
+      `;
+
+
+      tbody.appendChild(tr);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+   ===================================================== */
+
+function renderDashboard(){
+
+  const totalSales =
+    appData.sales.reduce(
+      (sum,sale) =>
+        sum + sale.total,
+      0
+    );
+
+
+  const totalQuantity =
+    appData.sales.reduce(
+      (sum,sale) =>
+        sum + sale.quantity,
+      0
+    );
+
+
+  document.getElementById(
+    "dashboardSales"
+  ).textContent =
+    formatMoney(
+      totalSales
+    );
+
+
+  document.getElementById(
+    "dashboardQuantity"
+  ).textContent =
+    formatNumber(
+      totalQuantity
+    );
+
+
+  document.getElementById(
+    "dashboardEntries"
+  ).textContent =
+    appData.sales.length;
+
+
+  document.getElementById(
+    "dashboardCustomers"
+  ).textContent =
+    appData.customers.length;
+
+}
+
+
+/* =====================================================
+   PART / RATE SUGGESTIONS
+   ===================================================== */
+
+function renderSuggestions(){
+
+  const parts =
+    [...new Set(
+      appData.sales
+        .map(
+          sale =>
+            sale.partName
+        )
+        .filter(Boolean)
+    )]
+    .sort(
+      (a,b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity:"base"
+          }
+        )
+    );
+
+
+  const categories =
+    [...new Set(
+      appData.sales
+        .map(
+          sale =>
+            sale.category
+        )
+        .filter(Boolean)
+    )]
+    .sort(
+      (a,b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity:"base"
+          }
+        )
+    );
+
+
+  const partList =
+    document.getElementById(
+      "partSuggestions"
+    );
+
+  const categoryList =
+    document.getElementById(
+      "categorySuggestions"
+    );
+
+
+  partList.innerHTML = "";
+
+  categoryList.innerHTML = "";
+
+
+  parts.forEach(
+    part => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        part;
+
+      partList.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  categories.forEach(
+    category => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        category;
+
+      categoryList.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  updateRateSuggestions();
+
+}
+
+
+/* =====================================================
+   RATE SUGGESTIONS
+   ===================================================== */
+
+function updateRateSuggestions(){
+
+  const partName =
+    document
+      .getElementById(
+        "salePartName"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const rates =
+    [...new Set(
+      appData.sales
+        .filter(
+          sale =>
+            !partName ||
+            sale.partName
+              .toLowerCase() ===
+            partName
+        )
+        .map(
+          sale =>
+            sale.rate
+        )
+    )];
+
+
+  const list =
+    document.getElementById(
+      "rateSuggestions"
+    );
+
+
+  list.innerHTML = "";
+
+
+  rates.forEach(
+    rate => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        rate;
+
+      list.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+document
+  .getElementById(
+    "salePartName"
+  )
+  .addEventListener(
+    "input",
+    updateRateSuggestions
+  );
+
+
+/* =====================================================
+   BACKUP
+   ===================================================== */
+
+function backupData(){
+
+  const backup = {
+
+    app:
+      "Sales Record",
+
+    version:
+      1,
+
+    exportedAt:
+      new Date().toISOString(),
+
+    data:{
+      sales:
+        appData.sales,
+
+      customers:
+        appData.customers
+    }
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+  a.href =
+    url;
+
+  a.download =
+    "sales-record-backup.json";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+
+  setTimeout(
+    () =>
+      URL.revokeObjectURL(url),
+    1000
+  );
+
+
+  showToast(
+    "Backup created."
+  );
+
+}
+
+
+/* =====================================================
+   RESTORE
+   ===================================================== */
+
+function restoreData(event){
+
+  const file =
+    event.target.files[0];
+
+
+  if(!file){
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(){
+
+      try{
+
+        const backup =
+          JSON.parse(
+            reader.result
+          );
+
+
+        if(
+          !backup ||
+          !backup.data ||
+          !Array.isArray(
+            backup.data.sales
+          ) ||
+          !Array.isArray(
+            backup.data.customers
+          )
+        ){
+
+          throw new Error(
+            "Invalid backup"
+          );
+
+        }
+
+
+        const confirmed =
+          confirm(
+            "Restore this backup? Current data will be replaced."
+          );
+
+
+        if(!confirmed){
+
+          event.target.value = "";
+
+          return;
+
+        }
+
+
+        appData = {
+
+          sales:
+            backup.data.sales,
+
+          customers:
+            backup.data.customers
+
+        };
+
+
+        saveData();
+
+        renderAll();
+
+        event.target.value = "";
+
+        showToast(
+          "Backup restored successfully."
+        );
+
+
+      }catch(error){
+
+        console.error(error);
+
+        showToast(
+          "Invalid backup file."
+        );
+
+        event.target.value = "";
+
+      }
+
+    };
+
+
+  reader.readAsText(
+    file
+  );
+
+}
+
+
+/* =====================================================
+   FORMAT
+   ===================================================== */
+
+function formatNumber(value){
+
+  return Number(value || 0)
+    .toLocaleString(
+      undefined,
+      {
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+function formatMoney(value){
+
+  return Number(value || 0)
+    .toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE
+   ===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJs(value){
+
+  return String(value ?? "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'");
+
+}
+
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+let toastTimer;
+
+
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+  toast.style.display =
+    "block";
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.style.display =
+          "none";
+
+      },
+      2200
+    );
+
+}
+
+
+/* =====================================================
+   RENDER ALL
+   ===================================================== */
+
+function renderAll(){
+
+  renderDashboard();
+
+  renderCustomerDropdown();
+
+  renderCustomers();
+
+  renderReportCustomer();
+
+  renderReport();
+
+  renderSalesTable();
+
+  renderSuggestions();
+
+}
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+loadData();
+
+setInitialDate();
+
+renderAll();
+
+updateSaleTotal();
+
+</script>
+
+</body>
+</html>
