@@ -504,28 +504,23 @@ th{
 
       <div class="field">
         <label>Category</label>
-        <input
-          type="text"
-          id="saleCategory"
-          list="categorySuggestions"
-          placeholder="Category">
-        <datalist id="categorySuggestions"></datalist>
+
+        <select id="saleCategory">
+          <option value="">Select Category</option>
+        </select>
       </div>
 
       <div class="field">
         <label>Part Name</label>
-        <input
-          type="text"
-          id="salePartName"
-          list="partSuggestions"
-          placeholder="Part Name"
-          autocomplete="off">
 
-        <datalist id="partSuggestions"></datalist>
+        <select id="salePartName">
+          <option value="">Select Part Name</option>
+        </select>
       </div>
 
       <div class="field">
         <label>Quantity</label>
+
         <input
           type="text"
           inputmode="decimal"
@@ -535,18 +530,17 @@ th{
 
       <div class="field">
         <label>Rate</label>
+
         <input
           type="text"
           inputmode="decimal"
           id="saleRate"
-          list="rateSuggestions"
           placeholder="Rate">
-
-        <datalist id="rateSuggestions"></datalist>
       </div>
 
       <div class="field">
         <label>Total</label>
+
         <div class="total-box" id="saleTotal">
           0.00
         </div>
@@ -642,6 +636,7 @@ th{
 
       <div class="field">
         <label>Customer Name</label>
+
         <input
           type="text"
           id="customerName"
@@ -807,11 +802,9 @@ th{
 
 /* =====================================================
    SALES RECORD
-   Local Storage
    ===================================================== */
 
 const STORAGE_KEY = "salesRecordDataV1";
-
 
 let appData = {
   sales: [],
@@ -1108,6 +1101,277 @@ function renderCustomerDropdown(){
 
 
 /* =====================================================
+   CATEGORY DROPDOWN
+   ===================================================== */
+
+function renderCategoryDropdown(){
+
+  const select =
+    document.getElementById(
+      "saleCategory"
+    );
+
+  const current =
+    select.value;
+
+  const categories =
+    [...new Set(
+      appData.sales
+        .map(sale => sale.category)
+        .filter(Boolean)
+    )].sort(
+      (a,b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity:"base"
+          }
+        )
+    );
+
+
+  select.innerHTML =
+    `<option value="">
+       Select Category
+     </option>`;
+
+
+  categories.forEach(category => {
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      category;
+
+    option.textContent =
+      category;
+
+    select.appendChild(option);
+
+  });
+
+
+  if(categories.includes(current)){
+
+    select.value =
+      current;
+
+  }
+
+}
+
+
+/* =====================================================
+   PART NAME DROPDOWN
+   Category অনুযায়ী Part Name
+   ===================================================== */
+
+function renderPartDropdown(){
+
+  const category =
+    document.getElementById(
+      "saleCategory"
+    ).value
+    .trim()
+    .toLowerCase();
+
+
+  const select =
+    document.getElementById(
+      "salePartName"
+    );
+
+  const current =
+    select.value;
+
+
+  const parts =
+    [...new Set(
+      appData.sales
+        .filter(sale =>
+          !category ||
+          String(sale.category)
+            .trim()
+            .toLowerCase() === category
+        )
+        .map(sale => sale.partName)
+        .filter(Boolean)
+    )].sort(
+      (a,b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity:"base"
+          }
+        )
+    );
+
+
+  select.innerHTML =
+    `<option value="">
+       Select Part Name
+     </option>`;
+
+
+  parts.forEach(part => {
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      part;
+
+    option.textContent =
+      part;
+
+    select.appendChild(option);
+
+  });
+
+
+  if(parts.includes(current)){
+
+    select.value =
+      current;
+
+  }else{
+
+    select.value = "";
+
+  }
+
+}
+
+
+/* =====================================================
+   PART NAME নির্বাচন করলে RATE AUTO
+   ===================================================== */
+
+function setRateFromPart(){
+
+  const category =
+    document.getElementById(
+      "saleCategory"
+    ).value
+    .trim()
+    .toLowerCase();
+
+  const partName =
+    document.getElementById(
+      "salePartName"
+    ).value
+    .trim()
+    .toLowerCase();
+
+
+  if(!partName){
+
+    document.getElementById(
+      "saleRate"
+    ).value = "";
+
+    updateSaleTotal();
+
+    return;
+
+  }
+
+
+  const matches =
+    appData.sales.filter(
+      sale =>
+        String(sale.partName)
+          .trim()
+          .toLowerCase() === partName &&
+        (
+          !category ||
+          String(sale.category)
+            .trim()
+            .toLowerCase() === category
+        )
+    );
+
+
+  if(matches.length === 0){
+
+    document.getElementById(
+      "saleRate"
+    ).value = "";
+
+    updateSaleTotal();
+
+    return;
+
+  }
+
+
+  /*
+    সর্বশেষ ব্যবহৃত Rate নেওয়া হচ্ছে
+  */
+
+  const latest =
+    matches[matches.length - 1];
+
+
+  document.getElementById(
+    "saleRate"
+  ).value =
+    latest.rate;
+
+
+  updateSaleTotal();
+
+}
+
+
+/* =====================================================
+   CATEGORY CHANGE
+   ===================================================== */
+
+document
+  .getElementById(
+    "saleCategory"
+  )
+  .addEventListener(
+    "change",
+    function(){
+
+      renderPartDropdown();
+
+      document
+        .getElementById(
+          "saleRate"
+        )
+        .value = "";
+
+      updateSaleTotal();
+
+    }
+  );
+
+
+/* =====================================================
+   PART CHANGE
+   ===================================================== */
+
+document
+  .getElementById(
+    "salePartName"
+  )
+  .addEventListener(
+    "change",
+    function(){
+
+      setRateFromPart();
+
+    }
+  );
+
+
+/* =====================================================
    ADD CUSTOMER
    ===================================================== */
 
@@ -1360,7 +1624,7 @@ function saveSale(){
   if(!category){
 
     showToast(
-      "Enter category."
+      "Select category."
     );
 
     document
@@ -1377,7 +1641,7 @@ function saveSale(){
   if(!partName){
 
     showToast(
-      "Enter part name."
+      "Select part name."
     );
 
     document
@@ -1451,18 +1715,11 @@ function saveSale(){
   saveData();
 
 
-  /*
-    Keep the selected date for the next entry.
-    Other fields are cleared.
-  */
-
   currentSaleDate =
     date;
 
 
-  clearSaleForm(
-    false
-  );
+  clearSaleForm(false);
 
 
   renderDashboard();
@@ -1470,6 +1727,10 @@ function saveSale(){
   renderSalesTable();
 
   renderReport();
+
+  renderCategoryDropdown();
+
+  renderPartDropdown();
 
   showToast(
     "Sale saved successfully."
@@ -1502,8 +1763,10 @@ function clearSaleForm(
   document
     .getElementById(
       "salePartName"
-    )
-    .value = "";
+    ).innerHTML =
+      `<option value="">
+         Select Part Name
+       </option>`;
 
   document
     .getElementById(
@@ -1535,8 +1798,7 @@ function clearSaleForm(
   document
     .getElementById(
       "saleDate"
-    )
-    .value =
+    ).value =
       currentSaleDate;
 
 
@@ -1749,6 +2011,10 @@ function deleteSale(id){
 
   renderReport();
 
+  renderCategoryDropdown();
+
+  renderPartDropdown();
+
   showToast(
     "Sales record deleted."
   );
@@ -1871,7 +2137,6 @@ function renderReport(){
   let totalQuantity = 0;
 
   let grandTotal = 0;
-
 
   const categories = {};
 
@@ -2060,186 +2325,6 @@ function renderDashboard(){
     appData.customers.length;
 
 }
-
-
-/* =====================================================
-   PART / RATE SUGGESTIONS
-   ===================================================== */
-
-function renderSuggestions(){
-
-  const parts =
-    [...new Set(
-      appData.sales
-        .map(
-          sale =>
-            sale.partName
-        )
-        .filter(Boolean)
-    )]
-    .sort(
-      (a,b) =>
-        a.localeCompare(
-          b,
-          undefined,
-          {
-            sensitivity:"base"
-          }
-        )
-    );
-
-
-  const categories =
-    [...new Set(
-      appData.sales
-        .map(
-          sale =>
-            sale.category
-        )
-        .filter(Boolean)
-    )]
-    .sort(
-      (a,b) =>
-        a.localeCompare(
-          b,
-          undefined,
-          {
-            sensitivity:"base"
-          }
-        )
-    );
-
-
-  const partList =
-    document.getElementById(
-      "partSuggestions"
-    );
-
-  const categoryList =
-    document.getElementById(
-      "categorySuggestions"
-    );
-
-
-  partList.innerHTML = "";
-
-  categoryList.innerHTML = "";
-
-
-  parts.forEach(
-    part => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        part;
-
-      partList.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  categories.forEach(
-    category => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        category;
-
-      categoryList.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  updateRateSuggestions();
-
-}
-
-
-/* =====================================================
-   RATE SUGGESTIONS
-   ===================================================== */
-
-function updateRateSuggestions(){
-
-  const partName =
-    document
-      .getElementById(
-        "salePartName"
-      )
-      .value
-      .trim()
-      .toLowerCase();
-
-
-  const rates =
-    [...new Set(
-      appData.sales
-        .filter(
-          sale =>
-            !partName ||
-            sale.partName
-              .toLowerCase() ===
-            partName
-        )
-        .map(
-          sale =>
-            sale.rate
-        )
-    )];
-
-
-  const list =
-    document.getElementById(
-      "rateSuggestions"
-    );
-
-
-  list.innerHTML = "";
-
-
-  rates.forEach(
-    rate => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        rate;
-
-      list.appendChild(
-        option
-      );
-
-    }
-  );
-
-}
-
-
-document
-  .getElementById(
-    "salePartName"
-  )
-  .addEventListener(
-    "input",
-    updateRateSuggestions
-  );
 
 
 /* =====================================================
@@ -2529,6 +2614,99 @@ function showToast(message){
 
 
 /* =====================================================
+   ENTER KEY NAVIGATION
+   ===================================================== */
+
+const saleFields = [
+
+  "saleDate",
+  "saleCategory",
+  "salePartName",
+  "saleQuantity",
+  "saleRate",
+  "saleCustomer"
+
+];
+
+
+saleFields.forEach(
+  (id,index) => {
+
+    const element =
+      document.getElementById(id);
+
+
+    element.addEventListener(
+      "keydown",
+      function(event){
+
+        if(event.key !== "Enter"){
+          return;
+        }
+
+
+        event.preventDefault();
+
+
+        if(id === "saleCategory"){
+
+          renderPartDropdown();
+
+        }
+
+
+        if(id === "salePartName"){
+
+          setRateFromPart();
+
+        }
+
+
+        const nextIndex =
+          index + 1;
+
+
+        if(
+          nextIndex <
+          saleFields.length
+        ){
+
+          const next =
+            document.getElementById(
+              saleFields[nextIndex]
+            );
+
+          next.focus();
+
+          /*
+            Select box হলে dropdown খুলে যাবে
+          */
+
+          if(
+            next.tagName === "SELECT"
+          ){
+
+            try{
+              next.showPicker();
+            }catch(error){}
+
+          }
+
+        }else{
+
+          saveSale();
+
+        }
+
+      }
+
+    );
+
+  }
+);
+
+
+/* =====================================================
    RENDER ALL
    ===================================================== */
 
@@ -2546,7 +2724,9 @@ function renderAll(){
 
   renderSalesTable();
 
-  renderSuggestions();
+  renderCategoryDropdown();
+
+  renderPartDropdown();
 
 }
 
