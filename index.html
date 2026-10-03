@@ -685,6 +685,40 @@ tbody tr:hover{
 
     <div class="card">
 
+        <div class="card-title">Report Filter</div>
+
+        <div class="filter-grid">
+
+            <div class="form-group">
+                <label>Customer</label>
+                <select id="reportCustomer">
+                    <option value="">All Customers</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="reportCategory">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button
+                    class="btn btn-secondary"
+                    onclick="clearReportFilter()">
+                    Clear Filter
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
         <div class="card-title">Reports</div>
 
         <div class="report-summary">
@@ -817,12 +851,6 @@ function loadData(){
                 Array.isArray(parsed.productMaster)
                 ? parsed.productMaster
                 : [];
-
-            /*
-             * Old data compatibility.
-             * If productMaster does not exist,
-             * create it from previous sales records.
-             */
 
             if(data.productMaster.length === 0){
 
@@ -959,6 +987,26 @@ function showToast(message){
    DATE
 ========================= */
 
+function getToday(){
+
+    const now = new Date();
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        String(now.getMonth()+1)
+        .padStart(2,"0");
+
+    const day =
+        String(now.getDate())
+        .padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
 function setToday(){
 
     const input =
@@ -966,21 +1014,7 @@ function setToday(){
 
     if(!input.value){
 
-        const now = new Date();
-
-        const year =
-            now.getFullYear();
-
-        const month =
-            String(now.getMonth()+1)
-            .padStart(2,"0");
-
-        const day =
-            String(now.getDate())
-            .padStart(2,"0");
-
-        input.value =
-            `${year}-${month}-${day}`;
+        input.value = getToday();
 
     }
 
@@ -1001,6 +1035,52 @@ function renderCustomerDropdown(){
 
     select.innerHTML =
         `<option value="">Select Customer</option>`;
+
+    data.customers.forEach(customer => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = customer.id;
+
+        option.textContent =
+            customer.name +
+            (
+                customer.mobile
+                ? " - " + customer.mobile
+                : ""
+            );
+
+        select.appendChild(option);
+
+    });
+
+    if(
+        current &&
+        data.customers.some(c => c.id === current)
+    ){
+
+        select.value = current;
+
+    }
+
+}
+
+
+/* =========================
+   REPORT CUSTOMER DROPDOWN
+========================= */
+
+function renderReportCustomerDropdown(){
+
+    const select =
+        document.getElementById("reportCustomer");
+
+    const current =
+        select.value;
+
+    select.innerHTML =
+        `<option value="">All Customers</option>`;
 
     data.customers.forEach(customer => {
 
@@ -1060,11 +1140,6 @@ function getCategories(){
 
     });
 
-    /*
-     * Also keep categories found in
-     * old/existing sales records.
-     */
-
     data.sales.forEach(sale => {
 
         const value =
@@ -1113,6 +1188,46 @@ function renderCategoryList(){
         list.appendChild(option);
 
     });
+
+}
+
+
+/* =========================
+   REPORT CATEGORY DROPDOWN
+========================= */
+
+function renderReportCategoryDropdown(){
+
+    const select =
+        document.getElementById("reportCategory");
+
+    const current =
+        select.value;
+
+    select.innerHTML =
+        `<option value="">All Categories</option>`;
+
+    getCategories().forEach(category => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = category;
+
+        select.appendChild(option);
+
+    });
+
+    if(
+        current &&
+        getCategories().some(c =>
+            sameText(c,current)
+        )
+    ){
+
+        select.value = current;
+
+    }
 
 }
 
@@ -1232,12 +1347,6 @@ document
 
     renderPartList();
 
-    /*
-     * When category changes,
-     * don't keep an old part/rate
-     * from another category.
-     */
-
     const part =
         document.getElementById("partInput");
 
@@ -1338,7 +1447,7 @@ function calculateTotal(){
 
 
 /* =========================
-   SAVE / UPDATE PRODUCT MASTER
+   SAVE PRODUCT MASTER
 ========================= */
 
 function saveProductMaster(
@@ -1364,12 +1473,6 @@ function saveProductMaster(
         findProduct(category,partName);
 
     if(existing){
-
-        /*
-         * Update saved rate.
-         * This allows the user to change
-         * the rate later if necessary.
-         */
 
         existing.rate = rate;
 
@@ -1478,11 +1581,6 @@ function saveSale(){
     const total =
         rate * qty;
 
-    /*
-     * Save/update Category + Part + Rate
-     * in Master Data.
-     */
-
     saveProductMaster(
         category,
         partName,
@@ -1500,17 +1598,29 @@ function saveSale(){
         if(sale){
 
             sale.date = date;
-            sale.customerId = customerId;
+
+            sale.customerId =
+                customerId;
+
             sale.customerName =
                 customer
                 ? customer.name
                 : "";
 
-            sale.category = category;
-            sale.partName = partName;
-            sale.rate = rate;
-            sale.qty = qty;
-            sale.total = total;
+            sale.category =
+                category;
+
+            sale.partName =
+                partName;
+
+            sale.rate =
+                rate;
+
+            sale.qty =
+                qty;
+
+            sale.total =
+                total;
 
         }
 
@@ -1528,22 +1638,28 @@ function saveSale(){
 
             date: date,
 
-            customerId: customerId,
+            customerId:
+                customerId,
 
             customerName:
                 customer
                 ? customer.name
                 : "",
 
-            category: category,
+            category:
+                category,
 
-            partName: partName,
+            partName:
+                partName,
 
-            rate: rate,
+            rate:
+                rate,
 
-            qty: qty,
+            qty:
+                qty,
 
-            total: total
+            total:
+                total
 
         });
 
@@ -1553,7 +1669,12 @@ function saveSale(){
 
     saveData();
 
-    clearSaleForm();
+    /*
+     * Clear the entry fields,
+     * but KEEP the selected date.
+     */
+
+    clearSaleForm(false);
 
     refreshAll();
 
@@ -1564,35 +1685,45 @@ function saveSale(){
    CLEAR SALES FORM
 ========================= */
 
-function clearSaleForm(){
+function clearSaleForm(resetDate = false){
 
     /*
-     * IMPORTANT:
-     *
-     * This function ONLY clears
-     * the current Sales Entry form.
-     *
-     * It does NOT clear:
-     * Customers
-     * Categories
-     * Parts
-     * Rates
-     * Sales Records
+     * Keep current date by default.
+     * Date is only reset when resetDate=true.
      */
+
+    const currentDate =
+        document.getElementById("saleDate").value;
 
     editingId = null;
 
-    document.getElementById("saleDate").value = "";
+    if(resetDate){
 
-    document.getElementById("customerSelect").value = "";
+        document.getElementById("saleDate")
+            .value = getToday();
 
-    document.getElementById("categoryInput").value = "";
+    }else{
 
-    document.getElementById("partInput").value = "";
+        document.getElementById("saleDate")
+            .value =
+            currentDate || getToday();
 
-    document.getElementById("rateInput").value = "";
+    }
 
-    document.getElementById("qtyInput").value = "";
+    document.getElementById("customerSelect")
+        .value = "";
+
+    document.getElementById("categoryInput")
+        .value = "";
+
+    document.getElementById("partInput")
+        .value = "";
+
+    document.getElementById("rateInput")
+        .value = "";
+
+    document.getElementById("qtyInput")
+        .value = "";
 
     document.getElementById("totalBox")
         .textContent = "0.00";
@@ -1608,8 +1739,6 @@ function clearSaleForm(){
 
     renderCategoryList();
     renderPartList();
-
-    setToday();
 
 }
 
@@ -1630,7 +1759,7 @@ function editSale(id){
     editingId = id;
 
     document.getElementById("saleDate")
-        .value = sale.date || "";
+        .value = sale.date || getToday();
 
     document.getElementById("customerSelect")
         .value = sale.customerId || "";
@@ -1660,10 +1789,6 @@ function editSale(id){
     document.getElementById("saveBtn")
         .textContent = "Update";
 
-    /*
-     * Go to Sales page.
-     */
-
     const salesButton =
         [...document.querySelectorAll("nav button")]
         .find(btn =>
@@ -1681,7 +1806,7 @@ function editSale(id){
 
 function cancelEdit(){
 
-    clearSaleForm();
+    clearSaleForm(false);
 
 }
 
@@ -1997,16 +2122,78 @@ function updateDashboard(){
 
 
 /* =========================
+   REPORT FILTER
+========================= */
+
+document
+.getElementById("reportCustomer")
+.addEventListener("change", renderReports);
+
+document
+.getElementById("reportCategory")
+.addEventListener("change", renderReports);
+
+
+function clearReportFilter(){
+
+    document.getElementById("reportCustomer")
+        .value = "";
+
+    document.getElementById("reportCategory")
+        .value = "";
+
+    renderReports();
+
+}
+
+
+/* =========================
+   GET FILTERED SALES
+========================= */
+
+function getFilteredSales(){
+
+    const customerId =
+        document.getElementById("reportCustomer")
+        .value;
+
+    const category =
+        document.getElementById("reportCategory")
+        .value
+        .trim();
+
+    return data.sales.filter(sale => {
+
+        const customerMatch =
+            !customerId ||
+            sale.customerId === customerId;
+
+        const categoryMatch =
+            !category ||
+            sameText(sale.category,category);
+
+        return customerMatch &&
+               categoryMatch;
+
+    });
+
+}
+
+
+/* =========================
    REPORTS
 ========================= */
 
 function renderReports(){
 
+    const filteredSales =
+        getFilteredSales();
+
     const totalSales =
-        data.sales.length;
+        filteredSales.length;
 
     const totalAmount =
-        data.sales.reduce(
+        filteredSales.reduce(
             (sum,sale) =>
                 sum + (Number(sale.total) || 0),
             0
@@ -2022,7 +2209,7 @@ function renderReports(){
 
     const summary = {};
 
-    data.sales.forEach(sale => {
+    filteredSales.forEach(sale => {
 
         const category =
             sale.category || "Uncategorized";
@@ -2106,11 +2293,14 @@ function backupData(){
 
         data: {
 
-            sales: data.sales,
+            sales:
+                data.sales,
 
-            customers: data.customers,
+            customers:
+                data.customers,
 
-            productMaster: data.productMaster
+            productMaster:
+                data.productMaster
 
         }
 
@@ -2202,6 +2392,7 @@ function restoreData(event){
             ){
 
                 event.target.value = "";
+
                 return;
 
             }
@@ -2219,11 +2410,6 @@ function restoreData(event){
                 ? restored.productMaster
                 : [];
 
-
-            /*
-             * If old backup has no productMaster,
-             * rebuild it from sales records.
-             */
 
             if(
                 data.productMaster.length === 0
@@ -2275,11 +2461,13 @@ function restoreData(event){
 
             saveData();
 
-            clearSaleForm();
+            clearSaleForm(false);
 
             refreshAll();
 
-            showToast("Data restored successfully");
+            showToast(
+                "Data restored successfully"
+            );
 
         }catch(error){
 
@@ -2344,7 +2532,11 @@ function refreshAll(){
 
     renderCustomerDropdown();
 
+    renderReportCustomerDropdown();
+
     renderCategoryList();
+
+    renderReportCategoryDropdown();
 
     renderPartList();
 
