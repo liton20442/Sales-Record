@@ -1,7 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta name="theme-color" content="#0f766e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sales Record">
+
+<title>Sales Record</title>
+
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
     margin:0;
@@ -12,9 +23,7 @@ html,body{
     font-size:16px;
 }
 
-body{
-    padding-bottom:30px;
-}
+body{padding-bottom:30px}
 
 header{
     background:#0f766e;
@@ -70,13 +79,8 @@ nav button.active{
     padding:14px;
 }
 
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
+.page{display:none}
+.page.active{display:block}
 
 .card{
     background:white;
@@ -132,7 +136,7 @@ nav button.active{
 }
 
 .form-group.full{
-    grid-column:1 / -1;
+    grid-column:1/-1;
 }
 
 label{
@@ -188,34 +192,15 @@ button.btn{
     cursor:pointer;
 }
 
-.btn-primary{
-    background:#0f766e;
-    color:white;
-}
-
-.btn-secondary{
-    background:#e5e7eb;
-    color:#374151;
-}
-
-.btn-danger{
-    background:#dc2626;
-    color:white;
-}
-
-.btn-warning{
-    background:#d97706;
-    color:white;
-}
+.btn-primary{background:#0f766e;color:white}
+.btn-secondary{background:#e5e7eb;color:#374151}
+.btn-danger{background:#dc2626;color:white}
+.btn-warning{background:#d97706;color:white}
 
 .btn-small{
-    padding:8px 10px !important;
+    padding:7px 10px !important;
     font-size:14px !important;
 }
-
-/* =========================
-   TABLE
-========================= */
 
 .table-wrap{
     width:100%;
@@ -226,12 +211,13 @@ button.btn{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:820px;
+    min-width:720px;
+    table-layout:auto;
 }
 
 th,td{
     border-bottom:1px solid #e5e7eb;
-    padding:12px 6px;
+    padding:13px 7px;
     text-align:left;
     font-size:15px;
     vertical-align:middle;
@@ -248,7 +234,7 @@ th{
 }
 
 tbody tr{
-    min-height:48px;
+    height:52px;
 }
 
 tbody tr:hover{
@@ -272,21 +258,6 @@ tbody tr:hover{
     color:#6b7280;
     padding:28px 10px;
     font-size:15px;
-}
-
-.quick-buttons{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.customer-row{
-    display:flex;
-    gap:8px;
-}
-
-.customer-row input{
-    flex:1;
 }
 
 .report-summary{
@@ -340,9 +311,7 @@ tbody tr:hover{
     transition:opacity .2s;
 }
 
-.toast.show{
-    opacity:1;
-}
+.toast.show{opacity:1}
 
 @media(max-width:700px){
 
@@ -391,19 +360,861 @@ tbody tr:hover{
         font-size:15px;
     }
 
-    /* Mobile table: compact width, taller rows */
     table{
-        min-width:790px;
+        min-width:720px;
     }
 
     th,td{
-        padding:13px 6px;
+        padding:14px 6px;
         font-size:15px;
-    }
-
-    .btn-small{
-        padding:8px 9px !important;
-        font-size:14px !important;
     }
 }
 </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-title">Sales Record</div>
+    <div class="header-subtitle">Sales and Customer Management</div>
+</header>
+
+<nav>
+    <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+    <button onclick="showPage('sales',this)">Sales</button>
+    <button onclick="showPage('view',this)">View</button>
+    <button onclick="showPage('customers',this)">Customers</button>
+    <button onclick="showPage('reports',this)">Reports</button>
+    <button onclick="showPage('backup',this)">Backup</button>
+</nav>
+
+<div class="container">
+
+<section id="dashboard" class="page active">
+    <div class="card">
+        <div class="card-title">Dashboard</div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Sales</div>
+                <div class="stat-value" id="dashSales">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Total Amount</div>
+                <div class="stat-value" id="dashAmount">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Customers</div>
+                <div class="stat-value" id="dashCustomers">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Items</div>
+                <div class="stat-value" id="dashItems">0</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sales" class="page">
+
+    <div class="card">
+        <div class="card-title" id="formTitle">New Sales Entry</div>
+
+        <div id="editNote" class="edit-mode-note" style="display:none">
+            Edit mode — update the entry and press Update.
+        </div>
+
+        <form id="salesForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="saleDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Customer</label>
+                    <select id="customerSelect">
+                        <option value="">Select Customer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category">
+                        <option value="">Select Category</option>
+                        <option>Electronics</option>
+                        <option>Electrical</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Part Name</label>
+                    <input id="partName" type="text" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Rate</label>
+                    <input id="rate" type="number" step="any" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input id="quantity" type="number" step="any" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Total</label>
+                    <div class="total-box" id="totalBox">0.00</div>
+                </div>
+
+            </div>
+
+            <div class="btn-row">
+                <button type="submit" class="btn btn-primary" id="saveBtn">
+                    Save
+                </button>
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        onclick="resetForm()">
+                    Clear
+                </button>
+
+                <button type="button"
+                        class="btn btn-warning"
+                        id="cancelEditBtn"
+                        onclick="cancelEdit()"
+                        style="display:none">
+                    Cancel Edit
+                </button>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<section id="view" class="page">
+
+    <div class="card">
+        <div class="card-title">Sales Records</div>
+
+        <div class="filter-grid">
+            <div class="form-group">
+                <label>Search</label>
+                <input id="searchBox"
+                       type="search"
+                       placeholder="Search...">
+            </div>
+
+            <div class="form-group">
+                <label>From Date</label>
+                <input id="fromDate" type="date">
+            </div>
+
+            <div class="form-group">
+                <label>To Date</label>
+                <input id="toDate" type="date">
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Category</th>
+                        <th>Part Name</th>
+                        <th>Rate</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="salesTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="emptyMessage" class="empty">
+            No sales records found.
+        </div>
+    </div>
+
+</section>
+
+<section id="customers" class="page">
+
+    <div class="card">
+        <div class="card-title">Customers</div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input id="customerName" type="text">
+            </div>
+
+            <div class="form-group">
+                <label>Mobile</label>
+                <input id="customerMobile" type="tel">
+            </div>
+
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-primary"
+                    onclick="addCustomer()">
+                Add Customer
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Mobile</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<section id="reports" class="page">
+
+    <div class="card">
+        <div class="card-title">Reports</div>
+
+        <div class="report-summary">
+
+            <div class="report-box">
+                <div class="label">Total Sales</div>
+                <div class="value" id="reportSales">0</div>
+            </div>
+
+            <div class="report-box">
+                <div class="label">Total Amount</div>
+                <div class="value" id="reportAmount">0.00</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Category Summary</div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Sales</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryReportBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<section id="backup" class="page">
+
+    <div class="card">
+        <div class="card-title">Backup & Restore</div>
+
+        <div class="btn-row">
+            <button class="btn btn-primary"
+                    onclick="backupData()">
+                Backup
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="document.getElementById('restoreFile').click()">
+                Restore
+            </button>
+
+            <input id="restoreFile"
+                   type="file"
+                   accept=".json,application/json"
+                   style="display:none"
+                   onchange="restoreData(event)">
+        </div>
+    </div>
+
+</section>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const STORAGE_KEY = "salesRecordDataV1";
+
+let data = {
+    sales: [],
+    customers: []
+};
+
+let editId = null;
+
+function loadData(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if(saved){
+            const parsed = JSON.parse(saved);
+
+            if(parsed && typeof parsed === "object"){
+                data.sales = Array.isArray(parsed.sales) ? parsed.sales : [];
+                data.customers = Array.isArray(parsed.customers) ? parsed.customers : [];
+            }
+        }
+    }catch(error){
+        console.error(error);
+        data = {sales:[],customers:[]};
+    }
+}
+
+function saveData(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+}
+
+function showPage(pageId,button){
+
+    document.querySelectorAll(".page").forEach(page=>{
+        page.classList.remove("active");
+    });
+
+    const page=document.getElementById(pageId);
+
+    if(page){
+        page.classList.add("active");
+    }
+
+    document.querySelectorAll("nav button").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    if(pageId==="view"){
+        renderSales();
+    }
+
+    if(pageId==="customers"){
+        renderCustomers();
+    }
+
+    if(pageId==="reports"){
+        renderReports();
+    }
+
+    updateDashboard();
+}
+
+function today(){
+    const d=new Date();
+    const month=String(d.getMonth()+1).padStart(2,"0");
+    const day=String(d.getDate()).padStart(2,"0");
+    return `${d.getFullYear()}-${month}-${day}`;
+}
+
+function money(value){
+    return Number(value||0).toFixed(2);
+}
+
+function updateTotal(){
+    const rate=Number(document.getElementById("rate").value||0);
+    const qty=Number(document.getElementById("quantity").value||0);
+
+    document.getElementById("totalBox").textContent=money(rate*qty);
+}
+
+function populateCustomers(){
+
+    const select=document.getElementById("customerSelect");
+
+    select.innerHTML='<option value="">Select Customer</option>';
+
+    data.customers.forEach(customer=>{
+        const option=document.createElement("option");
+
+        option.value=customer.id;
+        option.textContent=customer.name +
+            (customer.mobile ? " - "+customer.mobile : "");
+
+        select.appendChild(option);
+    });
+}
+
+function resetForm(){
+
+    editId=null;
+
+    document.getElementById("salesForm").reset();
+    document.getElementById("saleDate").value=today();
+    document.getElementById("totalBox").textContent="0.00";
+
+    document.getElementById("formTitle").textContent="New Sales Entry";
+    document.getElementById("saveBtn").textContent="Save";
+
+    document.getElementById("editNote").style.display="none";
+    document.getElementById("cancelEditBtn").style.display="none";
+}
+
+function cancelEdit(){
+    resetForm();
+}
+
+function editSale(id){
+
+    const sale=data.sales.find(item=>item.id===id);
+
+    if(!sale) return;
+
+    editId=id;
+
+    document.getElementById("saleDate").value=sale.date;
+    document.getElementById("customerSelect").value=sale.customerId||"";
+    document.getElementById("category").value=sale.category||"";
+    document.getElementById("partName").value=sale.partName||"";
+    document.getElementById("rate").value=sale.rate;
+    document.getElementById("quantity").value=sale.quantity;
+
+    updateTotal();
+
+    document.getElementById("formTitle").textContent="Edit Sales Entry";
+    document.getElementById("saveBtn").textContent="Update";
+
+    document.getElementById("editNote").style.display="block";
+    document.getElementById("cancelEditBtn").style.display="inline-block";
+
+    showPage("sales");
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteSale(id){
+
+    if(!confirm("Delete this sales record?")) return;
+
+    data.sales=data.sales.filter(item=>item.id!==id);
+
+    saveData();
+    renderSales();
+    updateDashboard();
+    renderReports();
+
+    showToast("Sales record deleted");
+}
+
+document.getElementById("salesForm").addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    const date=document.getElementById("saleDate").value;
+    const customerId=document.getElementById("customerSelect").value;
+    const category=document.getElementById("category").value;
+    const partName=document.getElementById("partName").value.trim();
+    const rate=Number(document.getElementById("rate").value||0);
+    const quantity=Number(document.getElementById("quantity").value||0);
+
+    if(!date || !partName){
+        showToast("Please fill required fields");
+        return;
+    }
+
+    const total=rate*quantity;
+
+    if(editId){
+
+        const index=data.sales.findIndex(item=>item.id===editId);
+
+        if(index!==-1){
+            data.sales[index]={
+                ...data.sales[index],
+                date,
+                customerId,
+                category,
+                partName,
+                rate,
+                quantity,
+                total
+            };
+        }
+
+        showToast("Sales record updated");
+
+    }else{
+
+        data.sales.push({
+            id:Date.now().toString(),
+            date,
+            customerId,
+            category,
+            partName,
+            rate,
+            quantity,
+            total
+        });
+
+        showToast("Sales record saved");
+    }
+
+    saveData();
+    resetForm();
+    updateDashboard();
+    renderReports();
+});
+
+function customerName(id){
+
+    const customer=data.customers.find(item=>item.id===id);
+
+    return customer ? customer.name : "";
+}
+
+function renderSales(){
+
+    const tbody=document.getElementById("salesTableBody");
+    const empty=document.getElementById("emptyMessage");
+
+    const search=document.getElementById("searchBox").value.trim().toLowerCase();
+    const from=document.getElementById("fromDate").value;
+    const to=document.getElementById("toDate").value;
+
+    let rows=data.sales.filter(sale=>{
+
+        const text=[
+            sale.date,
+            customerName(sale.customerId),
+            sale.category,
+            sale.partName
+        ].join(" ").toLowerCase();
+
+        if(search && !text.includes(search)) return false;
+        if(from && sale.date<from) return false;
+        if(to && sale.date>to) return false;
+
+        return true;
+    });
+
+    rows.sort((a,b)=>b.date.localeCompare(a.date));
+
+    tbody.innerHTML="";
+
+    empty.style.display=rows.length ? "none" : "block";
+
+    rows.forEach(sale=>{
+
+        const tr=document.createElement("tr");
+
+        tr.innerHTML=`
+            <td>${escapeHtml(sale.date)}</td>
+            <td>${escapeHtml(customerName(sale.customerId))}</td>
+            <td>${escapeHtml(sale.category||"")}</td>
+            <td>${escapeHtml(sale.partName)}</td>
+            <td>${money(sale.rate)}</td>
+            <td>${escapeHtml(String(sale.quantity))}</td>
+            <td>${money(sale.total)}</td>
+            <td>
+                <div class="table-actions">
+                    <button class="btn btn-warning btn-small"
+                            onclick="editSale('${sale.id}')">
+                        Edit
+                    </button>
+
+                    <button class="btn btn-danger btn-small"
+                            onclick="deleteSale('${sale.id}')">
+                        Delete
+                    </button>
+                </div>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+function addCustomer(){
+
+    const name=document.getElementById("customerName").value.trim();
+    const mobile=document.getElementById("customerMobile").value.trim();
+
+    if(!name){
+        showToast("Enter customer name");
+        return;
+    }
+
+    data.customers.push({
+        id:Date.now().toString(),
+        name,
+        mobile
+    });
+
+    saveData();
+
+    document.getElementById("customerName").value="";
+    document.getElementById("customerMobile").value="";
+
+    populateCustomers();
+    renderCustomers();
+    updateDashboard();
+
+    showToast("Customer added");
+}
+
+function deleteCustomer(id){
+
+    if(!confirm("Delete this customer?")) return;
+
+    data.customers=data.customers.filter(item=>item.id!==id);
+
+    saveData();
+    populateCustomers();
+    renderCustomers();
+    updateDashboard();
+
+    showToast("Customer deleted");
+}
+
+function renderCustomers(){
+
+    const tbody=document.getElementById("customerTableBody");
+
+    tbody.innerHTML="";
+
+    data.customers.forEach(customer=>{
+
+        const tr=document.createElement("tr");
+
+        tr.innerHTML=`
+            <td>${escapeHtml(customer.name)}</td>
+            <td>${escapeHtml(customer.mobile||"")}</td>
+            <td>
+                <button class="btn btn-danger btn-small"
+                        onclick="deleteCustomer('${customer.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+function renderReports(){
+
+    const totalSales=data.sales.length;
+
+    const totalAmount=data.sales.reduce(
+        (sum,item)=>sum+Number(item.total||0),0
+    );
+
+    document.getElementById("reportSales").textContent=totalSales;
+    document.getElementById("reportAmount").textContent=money(totalAmount);
+
+    const groups={};
+
+    data.sales.forEach(item=>{
+
+        const category=item.category||"Other";
+
+        if(!groups[category]){
+            groups[category]={
+                sales:0,
+                amount:0
+            };
+        }
+
+        groups[category].sales++;
+        groups[category].amount+=Number(item.total||0);
+    });
+
+    const tbody=document.getElementById("categoryReportBody");
+
+    tbody.innerHTML="";
+
+    Object.keys(groups).sort().forEach(category=>{
+
+        const tr=document.createElement("tr");
+
+        tr.innerHTML=`
+            <td>${escapeHtml(category)}</td>
+            <td>${groups[category].sales}</td>
+            <td>${money(groups[category].amount)}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+function updateDashboard(){
+
+    const totalAmount=data.sales.reduce(
+        (sum,item)=>sum+Number(item.total||0),0
+    );
+
+    const uniqueItems=new Set(
+        data.sales.map(item=>item.partName)
+    );
+
+    document.getElementById("dashSales").textContent=data.sales.length;
+    document.getElementById("dashAmount").textContent=money(totalAmount);
+    document.getElementById("dashCustomers").textContent=data.customers.length;
+    document.getElementById("dashItems").textContent=uniqueItems.size;
+}
+
+function backupData(){
+
+    const backup={
+        app:"Sales Record",
+        version:1,
+        exportedAt:new Date().toISOString(),
+        data:data
+    };
+
+    const blob=new Blob(
+        [JSON.stringify(backup,null,2)],
+        {type:"application/json"}
+    );
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="sales-record-backup.json";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(()=>{
+        URL.revokeObjectURL(url);
+    },1000);
+
+    showToast("Backup created");
+}
+
+function restoreData(event){
+
+    const file=event.target.files[0];
+
+    if(!file) return;
+
+    const reader=new FileReader();
+
+    reader.onload=function(){
+
+        try{
+
+            const backup=JSON.parse(reader.result);
+
+            if(!backup.data ||
+               !Array.isArray(backup.data.sales) ||
+               !Array.isArray(backup.data.customers)){
+
+                throw new Error("Invalid backup");
+            }
+
+            if(!confirm("Restore backup? Current data will be replaced.")){
+                event.target.value="";
+                return;
+            }
+
+            data={
+                sales:backup.data.sales,
+                customers:backup.data.customers
+            };
+
+            saveData();
+            populateCustomers();
+            renderSales();
+            renderCustomers();
+            renderReports();
+            updateDashboard();
+
+            showToast("Backup restored");
+
+        }catch(error){
+
+            console.error(error);
+            alert("Invalid backup file.");
+
+        }
+
+        event.target.value="";
+    };
+
+    reader.readAsText(file);
+}
+
+function showToast(message){
+
+    const toast=document.getElementById("toast");
+
+    toast.textContent=message;
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },1800);
+}
+
+function escapeHtml(value){
+
+    return String(value??"")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+document.getElementById("rate")
+    .addEventListener("input",updateTotal);
+
+document.getElementById("quantity")
+    .addEventListener("input",updateTotal);
+
+document.getElementById("searchBox")
+    .addEventListener("input",renderSales);
+
+document.getElementById("fromDate")
+    .addEventListener("change",renderSales);
+
+document.getElementById("toDate")
+    .addEventListener("change",renderSales);
+
+loadData();
+
+document.getElementById("saleDate").value=today();
+
+populateCustomers();
+renderSales();
+renderCustomers();
+renderReports();
+updateDashboard();
+</script>
+
+</body>
+</html>
