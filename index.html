@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      viewport-fit=cover">
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <meta name="theme-color" content="#0f766e">
 
@@ -16,6 +17,7 @@
 <title>Sales Record</title>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -418,51 +420,110 @@ tbody tr:hover{
         font-size:14px !important;
     }
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-    <div class="header-title">Sales Record</div>
-    <div class="header-subtitle">Sales and Customer Management</div>
+
+    <div class="header-title">
+        Sales Record
+    </div>
+
+    <div class="header-subtitle">
+        Sales and Customer Management
+    </div>
+
 </header>
 
+
 <nav>
-    <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
-    <button onclick="showPage('sales',this)">Sales</button>
-    <button onclick="showPage('view',this)">View</button>
-    <button onclick="showPage('customers',this)">Customers</button>
-    <button onclick="showPage('reports',this)">Reports</button>
-    <button onclick="showPage('backup',this)">Backup</button>
+
+    <button class="active"
+            onclick="showPage('dashboard',this)">
+        Dashboard
+    </button>
+
+    <button onclick="showPage('sales',this)">
+        Sales
+    </button>
+
+    <button onclick="showPage('view',this)">
+        View
+    </button>
+
+    <button onclick="showPage('customers',this)">
+        Customers
+    </button>
+
+    <button onclick="showPage('reports',this)">
+        Reports
+    </button>
+
+    <button onclick="showPage('backup',this)">
+        Backup
+    </button>
+
 </nav>
+
 
 <div class="container">
 
-<!-- ================= DASHBOARD ================= -->
+
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="page active">
 
     <div class="dashboard-grid">
 
         <div class="stat-card">
-            <div class="stat-label">Total Sales</div>
-            <div class="stat-value" id="dashSales">0</div>
+            <div class="stat-label">
+                Total Sales
+            </div>
+
+            <div class="stat-value"
+                 id="dashSales">
+                0
+            </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-label">Total Amount</div>
-            <div class="stat-value" id="dashAmount">0</div>
-        </div>
 
         <div class="stat-card">
-            <div class="stat-label">Customers</div>
-            <div class="stat-value" id="dashCustomers">0</div>
+            <div class="stat-label">
+                Total Amount
+            </div>
+
+            <div class="stat-value"
+                 id="dashAmount">
+                0.00
+            </div>
         </div>
 
+
         <div class="stat-card">
-            <div class="stat-label">Items</div>
-            <div class="stat-value" id="dashItems">0</div>
+            <div class="stat-label">
+                Customers
+            </div>
+
+            <div class="stat-value"
+                 id="dashCustomers">
+                0
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-label">
+                Items
+            </div>
+
+            <div class="stat-value"
+                 id="dashItems">
+                0
+            </div>
         </div>
 
     </div>
@@ -470,80 +531,145 @@ tbody tr:hover{
 </section>
 
 
-<!-- ================= SALES ================= -->
+
+<!-- SALES -->
 
 <section id="sales" class="page">
 
     <div class="card">
 
-        <div class="card-title">New Sales Entry</div>
-
-        <div id="editNote" class="edit-mode-note" style="display:none;">
-            Editing existing sales record
+        <div class="card-title">
+            New Sales Entry
         </div>
+
+
+        <div id="editNote"
+             class="edit-mode-note"
+             style="display:none;">
+
+            Editing existing sales record
+
+        </div>
+
 
         <div class="form-grid">
 
-            <div class="form-group">
-                <label>Date</label>
-                <input type="date" id="saleDate">
-            </div>
 
             <div class="form-group">
-                <label>Customer</label>
+
+                <label>
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="saleDate">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Customer
+                </label>
+
                 <select id="customerSelect">
-                    <option value="">Select Customer</option>
+
+                    <option value="">
+                        Select Customer
+                    </option>
+
                 </select>
+
             </div>
 
+
             <div class="form-group">
-                <label>Category</label>
+
+                <label>
+                    Category
+                </label>
+
                 <input
                     type="text"
                     id="categoryInput"
                     list="categoryList"
                     placeholder="Type or select category"
                     autocomplete="off">
+
                 <datalist id="categoryList"></datalist>
+
             </div>
 
+
             <div class="form-group">
-                <label>Part Name</label>
+
+                <label>
+                    Part Name
+                </label>
+
                 <input
                     type="text"
                     id="partInput"
                     list="partList"
                     placeholder="Type or select part"
                     autocomplete="off">
+
                 <datalist id="partList"></datalist>
+
             </div>
 
+
             <div class="form-group">
-                <label>Rate</label>
+
+                <label>
+                    Rate
+                </label>
+
                 <input
                     type="number"
                     id="rateInput"
                     min="0"
                     step="any"
                     placeholder="Enter rate">
+
             </div>
 
+
             <div class="form-group">
-                <label>Quantity</label>
+
+                <label>
+                    Quantity
+                </label>
+
                 <input
                     type="number"
                     id="qtyInput"
                     min="0"
                     step="any"
                     placeholder="Enter quantity">
+
             </div>
 
+
             <div class="form-group">
-                <label>Total</label>
-                <div class="total-box" id="totalBox">0.00</div>
+
+                <label>
+                    Total
+                </label>
+
+                <div class="total-box"
+                     id="totalBox">
+
+                    0.00
+
+                </div>
+
             </div>
 
         </div>
+
 
         <div class="btn-row">
 
@@ -551,21 +677,29 @@ tbody tr:hover{
                 class="btn btn-primary"
                 id="saveBtn"
                 onclick="saveSale()">
+
                 Save
+
             </button>
+
 
             <button
                 class="btn btn-secondary"
                 onclick="clearSaleForm()">
+
                 Clear
+
             </button>
+
 
             <button
                 class="btn btn-warning"
                 id="cancelEditBtn"
                 onclick="cancelEdit()"
                 style="display:none;">
+
                 Cancel Edit
+
             </button>
 
         </div>
@@ -575,20 +709,25 @@ tbody tr:hover{
 </section>
 
 
-<!-- ================= VIEW ================= -->
+
+<!-- VIEW -->
 
 <section id="view" class="page">
 
     <div class="card">
 
-        <div class="card-title">Sales Records</div>
+        <div class="card-title">
+            Sales Records
+        </div>
 
         <div class="table-wrap">
 
             <table>
 
                 <thead>
+
                     <tr>
+
                         <th>Date</th>
                         <th>Customer</th>
                         <th>Category</th>
@@ -596,8 +735,10 @@ tbody tr:hover{
                         <th>Rate</th>
                         <th>Qty</th>
                         <th>Total</th>
-                        <th>Action</th>
+                        <th>Actions</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody id="salesTableBody"></tbody>
@@ -611,40 +752,38 @@ tbody tr:hover{
 </section>
 
 
-<!-- ================= CUSTOMERS ================= -->
+
+<!-- CUSTOMERS -->
 
 <section id="customers" class="page">
 
     <div class="card">
 
-        <div class="card-title">Customers</div>
-
-        <div class="form-grid">
-
-            <div class="form-group">
-                <label>Customer Name</label>
-                <input
-                    type="text"
-                    id="customerName"
-                    placeholder="Enter customer name">
-            </div>
-
-            <div class="form-group">
-                <label>Mobile</label>
-                <input
-                    type="text"
-                    id="customerMobile"
-                    placeholder="Enter mobile number">
-            </div>
-
+        <div class="card-title">
+            Add Customer
         </div>
 
-        <div class="btn-row">
+
+        <div class="customer-row">
+
+            <input
+                type="text"
+                id="customerNameInput"
+                placeholder="Customer Name">
+
+
+            <input
+                type="text"
+                id="customerMobileInput"
+                placeholder="Mobile">
+
 
             <button
                 class="btn btn-primary"
                 onclick="addCustomer()">
+
                 Add Customer
+
             </button>
 
         </div>
@@ -654,18 +793,24 @@ tbody tr:hover{
 
     <div class="card">
 
-        <div class="card-title">Customer List</div>
+        <div class="card-title">
+            Customer List
+        </div>
 
         <div class="table-wrap">
 
             <table>
 
                 <thead>
+
                     <tr>
+
                         <th>Name</th>
                         <th>Mobile</th>
-                        <th>Action</th>
+                        <th>Actions</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody id="customerTableBody"></tbody>
@@ -679,37 +824,69 @@ tbody tr:hover{
 </section>
 
 
-<!-- ================= REPORTS ================= -->
+
+<!-- REPORTS -->
 
 <section id="reports" class="page">
 
     <div class="card">
 
-        <div class="card-title">Report Filter</div>
+        <div class="card-title">
+            Report Filter
+        </div>
+
 
         <div class="filter-grid">
 
+
             <div class="form-group">
-                <label>Customer</label>
+
+                <label>
+                    Customer
+                </label>
+
                 <select id="reportCustomer">
-                    <option value="">All Customers</option>
+
+                    <option value="">
+                        All Customers
+                    </option>
+
                 </select>
+
             </div>
 
+
             <div class="form-group">
-                <label>Category</label>
+
+                <label>
+                    Category
+                </label>
+
                 <select id="reportCategory">
-                    <option value="">All Categories</option>
+
+                    <option value="">
+                        All Categories
+                    </option>
+
                 </select>
+
             </div>
 
+
             <div class="form-group">
-                <label>&nbsp;</label>
+
+                <label>
+                    &nbsp;
+                </label>
+
                 <button
                     class="btn btn-secondary"
                     onclick="clearReportFilter()">
+
                     Clear Filter
+
                 </button>
+
             </div>
 
         </div>
@@ -719,18 +896,43 @@ tbody tr:hover{
 
     <div class="card">
 
-        <div class="card-title">Reports</div>
+        <div class="card-title">
+            Reports
+        </div>
+
 
         <div class="report-summary">
 
-            <div class="report-box">
-                <div class="label">Total Sales</div>
-                <div class="value" id="reportSales">0</div>
-            </div>
 
             <div class="report-box">
-                <div class="label">Total Amount</div>
-                <div class="value" id="reportAmount">0.00</div>
+
+                <div class="label">
+                    Total Sales
+                </div>
+
+                <div class="value"
+                     id="reportSales">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="report-box">
+
+                <div class="label">
+                    Total Amount
+                </div>
+
+                <div class="value"
+                     id="reportAmount">
+
+                    0.00
+
+                </div>
+
             </div>
 
         </div>
@@ -740,18 +942,24 @@ tbody tr:hover{
 
     <div class="card">
 
-        <div class="card-title">Category Summary</div>
+        <div class="card-title">
+            Category Summary
+        </div>
 
         <div class="table-wrap">
 
             <table>
 
                 <thead>
+
                     <tr>
+
                         <th>Category</th>
                         <th>Sales</th>
                         <th>Amount</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody id="categoryReportBody"></tbody>
@@ -765,31 +973,35 @@ tbody tr:hover{
 </section>
 
 
-<!-- ================= BACKUP ================= -->
+
+<!-- BACKUP -->
 
 <section id="backup" class="page">
 
     <div class="card">
 
-        <div class="card-title">Backup & Restore</div>
+        <div class="card-title">
+            Backup & Restore
+        </div>
 
-        <p>
-            Backup includes sales records, customers,
-            categories, part names and saved rates.
-        </p>
 
         <div class="btn-row">
 
             <button
                 class="btn btn-primary"
                 onclick="backupData()">
+
                 Backup
+
             </button>
+
 
             <button
                 class="btn btn-secondary"
                 onclick="document.getElementById('restoreFile').click()">
+
                 Restore
+
             </button>
 
             <input
@@ -807,35 +1019,46 @@ tbody tr:hover{
 
 </div>
 
-<div id="toast" class="toast"></div>
+
+<div id="toast"
+     class="toast">
+</div>
+
 
 
 <script>
 
 const STORAGE_KEY = "salesRecordDataV1";
 
+
 let data = {
+
     sales: [],
     customers: [],
     productMaster: []
+
 };
+
 
 let editingId = null;
 
 
+
 /* =========================
-   LOAD DATA
+   LOAD / SAVE
 ========================= */
 
 function loadData(){
 
     try{
 
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved =
+            localStorage.getItem(STORAGE_KEY);
 
         if(saved){
 
-            const parsed = JSON.parse(saved);
+            const parsed =
+                JSON.parse(saved);
 
             data.sales =
                 Array.isArray(parsed.sales)
@@ -852,37 +1075,6 @@ function loadData(){
                 ? parsed.productMaster
                 : [];
 
-            if(data.productMaster.length === 0){
-
-                data.sales.forEach(sale => {
-
-                    if(
-                        sale.category &&
-                        sale.partName
-                    ){
-
-                        const exists =
-                            data.productMaster.some(item =>
-                                sameText(item.category,sale.category) &&
-                                sameText(item.partName,sale.partName)
-                            );
-
-                        if(!exists){
-
-                            data.productMaster.push({
-                                category: sale.category,
-                                partName: sale.partName,
-                                rate: Number(sale.rate) || 0
-                            });
-
-                        }
-
-                    }
-
-                });
-
-            }
-
         }
 
     }catch(error){
@@ -890,20 +1082,19 @@ function loadData(){
         console.error(error);
 
         data = {
-            sales: [],
-            customers: [],
-            productMaster: []
+            sales:[],
+            customers:[],
+            productMaster:[]
         };
 
     }
 
-    saveData();
+
+    rebuildProductMasterFromSales();
+
 }
 
 
-/* =========================
-   SAVE DATA
-========================= */
 
 function saveData(){
 
@@ -915,8 +1106,9 @@ function saveData(){
 }
 
 
+
 /* =========================
-   TEXT COMPARE
+   BASIC HELPERS
 ========================= */
 
 function sameText(a,b){
@@ -932,60 +1124,6 @@ function sameText(a,b){
 }
 
 
-/* =========================
-   PAGE
-========================= */
-
-function showPage(pageId, button){
-
-    document.querySelectorAll(".page")
-        .forEach(page => {
-            page.classList.remove("active");
-        });
-
-    const page =
-        document.getElementById(pageId);
-
-    if(page){
-        page.classList.add("active");
-    }
-
-    document.querySelectorAll("nav button")
-        .forEach(btn => {
-            btn.classList.remove("active");
-        });
-
-    if(button){
-        button.classList.add("active");
-    }
-
-    refreshAll();
-
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = message;
-    toast.classList.add("show");
-
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 1800);
-
-}
-
-
-/* =========================
-   DATE
-========================= */
 
 function getToday(){
 
@@ -1007,6 +1145,7 @@ function getToday(){
 }
 
 
+
 function setToday(){
 
     const input =
@@ -1014,478 +1153,162 @@ function setToday(){
 
     if(!input.value){
 
-        input.value = getToday();
+        input.value =
+            getToday();
 
     }
 
 }
 
 
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },2200);
+
+}
+
+
+
 /* =========================
-   CUSTOMER DROPDOWN
+   PAGE
 ========================= */
 
-function renderCustomerDropdown(){
+function showPage(pageId,button){
 
-    const select =
-        document.getElementById("customerSelect");
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
-    const current =
-        select.value;
+            page.classList.remove("active");
 
-    select.innerHTML =
-        `<option value="">Select Customer</option>`;
+        });
 
-    data.customers.forEach(customer => {
 
-        const option =
-            document.createElement("option");
+    const page =
+        document.getElementById(pageId);
 
-        option.value = customer.id;
+    if(page){
 
-        option.textContent =
-            customer.name +
-            (
-                customer.mobile
-                ? " - " + customer.mobile
-                : ""
-            );
-
-        select.appendChild(option);
-
-    });
-
-    if(
-        current &&
-        data.customers.some(c => c.id === current)
-    ){
-
-        select.value = current;
+        page.classList.add("active");
 
     }
 
-}
+
+    document
+        .querySelectorAll("nav button")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
 
 
-/* =========================
-   REPORT CUSTOMER DROPDOWN
-========================= */
+    if(button){
 
-function renderReportCustomerDropdown(){
-
-    const select =
-        document.getElementById("reportCustomer");
-
-    const current =
-        select.value;
-
-    select.innerHTML =
-        `<option value="">All Customers</option>`;
-
-    data.customers.forEach(customer => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = customer.id;
-
-        option.textContent =
-            customer.name +
-            (
-                customer.mobile
-                ? " - " + customer.mobile
-                : ""
-            );
-
-        select.appendChild(option);
-
-    });
-
-    if(
-        current &&
-        data.customers.some(c => c.id === current)
-    ){
-
-        select.value = current;
+        button.classList.add("active");
 
     }
 
+
+    refreshAll();
+
 }
+
 
 
 /* =========================
-   CATEGORY LIST
+   PRODUCT MASTER
 ========================= */
 
-function getCategories(){
+function rebuildProductMasterFromSales(){
 
-    const categories = [];
+    if(!Array.isArray(data.productMaster)){
 
-    data.productMaster.forEach(item => {
+        data.productMaster = [];
 
-        const value =
-            String(item.category || "").trim();
+    }
 
-        if(!value) return;
-
-        if(
-            !categories.some(c =>
-                sameText(c,value)
-            )
-        ){
-
-            categories.push(value);
-
-        }
-
-    });
-
-    data.sales.forEach(sale => {
-
-        const value =
-            String(sale.category || "").trim();
-
-        if(!value) return;
-
-        if(
-            !categories.some(c =>
-                sameText(c,value)
-            )
-        ){
-
-            categories.push(value);
-
-        }
-
-    });
-
-    return categories.sort(
-        (a,b) =>
-            a.localeCompare(
-                b,
-                undefined,
-                {sensitivity:"base"}
-            )
-    );
-
-}
-
-
-function renderCategoryList(){
-
-    const list =
-        document.getElementById("categoryList");
-
-    list.innerHTML = "";
-
-    getCategories().forEach(category => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = category;
-
-        list.appendChild(option);
-
-    });
-
-}
-
-
-/* =========================
-   REPORT CATEGORY DROPDOWN
-========================= */
-
-function renderReportCategoryList(){
-
-    const select =
-        document.getElementById("reportCategory");
-
-    if(!select) return;
-
-    const currentValue = select.value;
-
-    const categories = [];
 
     data.sales.forEach(sale => {
 
         const category =
-            String(sale.category || "").trim();
+            String(sale.category || "")
+            .trim();
 
-        // Blank category বাদ
-        if(!category){
+        const partName =
+            String(sale.partName || "")
+            .trim();
+
+        const rate =
+            Number(sale.rate) || 0;
+
+
+        if(!category || !partName){
+
             return;
+
         }
 
-        const exists =
-            categories.some(c =>
-                sameText(c, category)
+
+        const existing =
+            data.productMaster.find(item =>
+
+                sameText(item.category,category) &&
+                sameText(item.partName,partName)
+
             );
 
-        if(!exists){
-            categories.push(category);
-        }
 
-    });
+        if(existing){
 
-    categories.sort((a,b) =>
-        a.localeCompare(b, undefined, {
-            sensitivity:"base"
-        })
-    );
+            existing.rate =
+                rate;
 
-    select.innerHTML =
-        '<option value="">All Categories</option>';
+        }else{
 
-    categories.forEach(category => {
+            data.productMaster.push({
 
-        const option =
-            document.createElement("option");
+                category:category,
+                partName:partName,
+                rate:rate
 
-        option.value = category;
-        option.textContent = category;
-
-        select.appendChild(option);
-
-    });
-
-    // আগের নির্বাচন থাকলে সেটি রাখবে
-    if(
-        currentValue &&
-        categories.some(c =>
-            sameText(c, currentValue)
-        )
-    ){
-        select.value = currentValue;
-    }else{
-        select.value = "";
-    }
-
-}
-
-/* =========================
-   PART LIST
-========================= */
-
-function renderPartList(){
-
-    const category =
-        document.getElementById("categoryInput")
-        .value
-        .trim();
-
-    const list =
-        document.getElementById("partList");
-
-    list.innerHTML = "";
-
-    if(!category) return;
-
-    const parts = [];
-
-    data.productMaster.forEach(item => {
-
-        if(
-            sameText(item.category,category)
-        ){
-
-            const part =
-                String(item.partName || "").trim();
-
-            if(
-                part &&
-                !parts.some(p =>
-                    sameText(p,part)
-                )
-            ){
-
-                parts.push(part);
-
-            }
+            });
 
         }
-
-    });
-
-    data.sales.forEach(sale => {
-
-        if(
-            sameText(sale.category,category)
-        ){
-
-            const part =
-                String(sale.partName || "").trim();
-
-            if(
-                part &&
-                !parts.some(p =>
-                    sameText(p,part)
-                )
-            ){
-
-                parts.push(part);
-
-            }
-
-        }
-
-    });
-
-    parts.sort(
-        (a,b) =>
-            a.localeCompare(
-                b,
-                undefined,
-                {sensitivity:"base"}
-            )
-    );
-
-    parts.forEach(part => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = part;
-
-        list.appendChild(option);
 
     });
 
 }
 
 
-/* =========================
-   FIND PRODUCT
-========================= */
 
-function findProduct(category, part){
+function findProduct(category,partName){
 
     return data.productMaster.find(item =>
+
         sameText(item.category,category) &&
-        sameText(item.partName,part)
+        sameText(item.partName,partName)
+
     );
 
 }
 
 
-/* =========================
-   CATEGORY CHANGE
-========================= */
 
-document
-.getElementById("categoryInput")
-.addEventListener("input", function(){
-
-    renderPartList();
-
-    const part =
-        document.getElementById("partInput");
-
-    const rate =
-        document.getElementById("rateInput");
-
-    const product =
-        findProduct(
-            this.value.trim(),
-            part.value.trim()
-        );
-
-    if(!product){
-
-        part.value = "";
-        rate.value = "";
-
-    }
-
-});
-
-
-/* =========================
-   PART CHANGE
-========================= */
-
-document
-.getElementById("partInput")
-.addEventListener("input", function(){
-
-    const category =
-        document.getElementById("categoryInput")
-        .value
-        .trim();
-
-    const part =
-        this.value.trim();
-
-    const rate =
-        document.getElementById("rateInput");
-
-    if(!category || !part){
-
-        rate.value = "";
-        calculateTotal();
-        return;
-
-    }
-
-    const product =
-        findProduct(category,part);
-
-    if(product){
-
-        rate.value =
-            Number(product.rate) || 0;
-
-    }
-
-    calculateTotal();
-
-});
-
-
-/* =========================
-   RATE / QTY
-========================= */
-
-document
-.getElementById("rateInput")
-.addEventListener("input", calculateTotal);
-
-document
-.getElementById("qtyInput")
-.addEventListener("input", calculateTotal);
-
-
-function calculateTotal(){
-
-    const rate =
-        Number(
-            document.getElementById("rateInput").value
-        ) || 0;
-
-    const qty =
-        Number(
-            document.getElementById("qtyInput").value
-        ) || 0;
-
-    const total =
-        rate * qty;
-
-    document.getElementById("totalBox")
-        .textContent =
-        total.toFixed(2);
-
-}
-
-
-/* =========================
-   SAVE PRODUCT MASTER
-========================= */
-
-function saveProductMaster(
-    category,
-    partName,
-    rate
-){
+function saveProductMaster(category,partName,rate){
 
     category =
         String(category || "").trim();
@@ -1496,32 +1319,375 @@ function saveProductMaster(
     rate =
         Number(rate) || 0;
 
+
     if(!category || !partName){
+
         return;
+
     }
+
 
     const existing =
         findProduct(category,partName);
 
+
     if(existing){
 
-        existing.rate = rate;
+        existing.rate =
+            rate;
 
     }else{
 
         data.productMaster.push({
 
-            category: category,
-
-            partName: partName,
-
-            rate: rate
+            category:category,
+            partName:partName,
+            rate:rate
 
         });
 
     }
 
 }
+
+
+
+/* =========================
+   CUSTOMER DROPDOWN
+========================= */
+
+function renderCustomerSelect(){
+
+    const select =
+        document.getElementById("customerSelect");
+
+    if(!select) return;
+
+
+    const current =
+        select.value;
+
+
+    select.innerHTML =
+        '<option value="">Select Customer</option>';
+
+
+    data.customers.forEach(customer => {
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            customer.id;
+
+        option.textContent =
+            customer.name +
+            (
+                customer.mobile
+                ? " - " + customer.mobile
+                : ""
+            );
+
+        select.appendChild(option);
+
+    });
+
+
+    if(
+        data.customers.some(c =>
+            c.id === current
+        )
+    ){
+
+        select.value =
+            current;
+
+    }
+
+}
+
+
+
+/* =========================
+   CATEGORY / PART LIST
+========================= */
+
+function renderCategoryList(){
+
+    const list =
+        document.getElementById("categoryList");
+
+    if(!list) return;
+
+
+    const categories = [];
+
+
+    data.productMaster.forEach(item => {
+
+        const category =
+            String(item.category || "")
+            .trim();
+
+        if(!category){
+
+            return;
+
+        }
+
+
+        if(
+            !categories.some(c =>
+                sameText(c,category)
+            )
+        ){
+
+            categories.push(category);
+
+        }
+
+    });
+
+
+    data.sales.forEach(sale => {
+
+        const category =
+            String(sale.category || "")
+            .trim();
+
+        if(!category){
+
+            return;
+
+        }
+
+
+        if(
+            !categories.some(c =>
+                sameText(c,category)
+            )
+        ){
+
+            categories.push(category);
+
+        }
+
+    });
+
+
+    categories.sort((a,b) =>
+        a.localeCompare(
+            b,
+            undefined,
+            {sensitivity:"base"}
+        )
+    );
+
+
+    list.innerHTML = "";
+
+
+    categories.forEach(category => {
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            category;
+
+        list.appendChild(option);
+
+    });
+
+}
+
+
+
+function renderPartList(){
+
+    const list =
+        document.getElementById("partList");
+
+    if(!list) return;
+
+
+    const category =
+        document.getElementById("categoryInput")
+        .value
+        .trim();
+
+
+    const parts = [];
+
+
+    data.productMaster.forEach(item => {
+
+        if(
+            category &&
+            !sameText(item.category,category)
+        ){
+
+            return;
+
+        }
+
+
+        const part =
+            String(item.partName || "")
+            .trim();
+
+        if(!part){
+
+            return;
+
+        }
+
+
+        if(
+            !parts.some(p =>
+                sameText(p,part)
+            )
+        ){
+
+            parts.push(part);
+
+        }
+
+    });
+
+
+    data.sales.forEach(sale => {
+
+        if(
+            category &&
+            !sameText(sale.category,category)
+        ){
+
+            return;
+
+        }
+
+
+        const part =
+            String(sale.partName || "")
+            .trim();
+
+        if(!part){
+
+            return;
+
+        }
+
+
+        if(
+            !parts.some(p =>
+                sameText(p,part)
+            )
+        ){
+
+            parts.push(part);
+
+        }
+
+    });
+
+
+    parts.sort((a,b) =>
+        a.localeCompare(
+            b,
+            undefined,
+            {sensitivity:"base"}
+        )
+    );
+
+
+    list.innerHTML = "";
+
+
+    parts.forEach(part => {
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            part;
+
+        list.appendChild(option);
+
+    });
+
+}
+
+
+
+/* =========================
+   RATE / TOTAL
+========================= */
+
+function autoFillRate(){
+
+    const category =
+        document.getElementById("categoryInput")
+        .value
+        .trim();
+
+
+    const part =
+        document.getElementById("partInput")
+        .value
+        .trim();
+
+
+    if(!category || !part){
+
+        return;
+
+    }
+
+
+    const product =
+        findProduct(category,part);
+
+
+    if(product){
+
+        document.getElementById("rateInput")
+            .value =
+            Number(product.rate) || 0;
+
+    }
+
+
+    calculateTotal();
+
+}
+
+
+
+function calculateTotal(){
+
+    const rate =
+        Number(
+            document.getElementById("rateInput").value
+        ) || 0;
+
+
+    const qty =
+        Number(
+            document.getElementById("qtyInput").value
+        ) || 0;
+
+
+    const total =
+        rate * qty;
+
+
+    document.getElementById("totalBox")
+        .textContent =
+        total.toFixed(2);
+
+}
+
 
 
 /* =========================
@@ -1531,104 +1697,121 @@ function saveProductMaster(
 function saveSale(){
 
     const date =
-        document.getElementById("saleDate").value;
+        document.getElementById("saleDate")
+        .value;
+
 
     const customerId =
-        document.getElementById("customerSelect").value;
+        document.getElementById("customerSelect")
+        .value;
+
 
     const category =
         document.getElementById("categoryInput")
         .value
         .trim();
 
+
     const partName =
         document.getElementById("partInput")
         .value
         .trim();
+
 
     const rate =
         Number(
             document.getElementById("rateInput").value
         );
 
+
     const qty =
         Number(
             document.getElementById("qtyInput").value
         );
 
+
     if(!date){
 
         showToast("Please select date");
+
         return;
 
     }
+
 
     if(!customerId){
 
         showToast("Please select customer");
+
         return;
 
     }
+
 
     if(!category){
 
         showToast("Please enter category");
+
         return;
 
     }
+
 
     if(!partName){
 
         showToast("Please enter part name");
+
         return;
 
     }
 
+
     if(
-        !Number.isFinite(rate) ||
+        isNaN(rate) ||
         rate < 0
     ){
 
         showToast("Please enter valid rate");
+
         return;
 
     }
 
+
     if(
-        !Number.isFinite(qty) ||
+        isNaN(qty) ||
         qty <= 0
     ){
 
         showToast("Please enter valid quantity");
+
         return;
 
     }
 
+
     const customer =
-        data.customers.find(
-            c => c.id === customerId
+        data.customers.find(c =>
+            c.id === customerId
         );
+
 
     const total =
         rate * qty;
-
-    saveProductMaster(
-        category,
-        partName,
-        rate
-    );
 
 
     if(editingId){
 
         const sale =
-            data.sales.find(
-                s => s.id === editingId
+            data.sales.find(s =>
+                s.id === editingId
             );
+
 
         if(sale){
 
-            sale.date = date;
+            sale.date =
+                date;
 
             sale.customerId =
                 customerId;
@@ -1655,19 +1838,15 @@ function saveSale(){
 
         }
 
-        showToast("Sale updated");
-
     }else{
 
         data.sales.push({
 
             id:
-                Date.now().toString() +
-                Math.random()
-                .toString(36)
-                .slice(2),
+                Date.now().toString(),
 
-            date: date,
+            date:
+                date,
 
             customerId:
                 customerId,
@@ -1694,44 +1873,47 @@ function saveSale(){
 
         });
 
-        showToast("Sale saved");
-
     }
 
-    saveData();
 
-    /*
-     * Clear the entry fields,
-     * but KEEP the selected date.
-     */
+    saveProductMaster(
+        category,
+        partName,
+        rate
+    );
+
+
+    saveData();
 
     clearSaleForm(false);
 
     refreshAll();
 
+    showToast("Sale saved successfully");
+
 }
+
 
 
 /* =========================
    CLEAR SALES FORM
 ========================= */
 
-function clearSaleForm(resetDate = false){
-
-    /*
-     * Keep current date by default.
-     * Date is only reset when resetDate=true.
-     */
+function clearSaleForm(resetDate=false){
 
     const currentDate =
-        document.getElementById("saleDate").value;
+        document.getElementById("saleDate")
+        .value;
+
 
     editingId = null;
+
 
     if(resetDate){
 
         document.getElementById("saleDate")
-            .value = getToday();
+            .value =
+            getToday();
 
     }else{
 
@@ -1741,32 +1923,42 @@ function clearSaleForm(resetDate = false){
 
     }
 
+
     document.getElementById("customerSelect")
         .value = "";
+
 
     document.getElementById("categoryInput")
         .value = "";
 
+
     document.getElementById("partInput")
         .value = "";
+
 
     document.getElementById("rateInput")
         .value = "";
 
+
     document.getElementById("qtyInput")
         .value = "";
+
 
     document.getElementById("totalBox")
         .textContent = "0.00";
 
+
     document.getElementById("editNote")
         .style.display = "none";
+
 
     document.getElementById("cancelEditBtn")
         .style.display = "none";
 
+
     document.getElementById("saveBtn")
         .textContent = "Save";
+
 
     renderCategoryList();
     renderPartList();
@@ -1774,66 +1966,86 @@ function clearSaleForm(resetDate = false){
 }
 
 
+
 /* =========================
-   EDIT SALE
+   EDIT / CANCEL
 ========================= */
 
 function editSale(id){
 
     const sale =
-        data.sales.find(
-            s => s.id === id
+        data.sales.find(s =>
+            s.id === id
         );
 
-    if(!sale) return;
 
-    editingId = id;
+    if(!sale){
+
+        return;
+
+    }
+
+
+    editingId =
+        id;
+
 
     document.getElementById("saleDate")
-        .value = sale.date || getToday();
+        .value =
+        sale.date || getToday();
+
 
     document.getElementById("customerSelect")
-        .value = sale.customerId || "";
+        .value =
+        sale.customerId || "";
+
 
     document.getElementById("categoryInput")
-        .value = sale.category || "";
+        .value =
+        sale.category || "";
+
 
     renderPartList();
 
+
     document.getElementById("partInput")
-        .value = sale.partName || "";
+        .value =
+        sale.partName || "";
+
 
     document.getElementById("rateInput")
-        .value = sale.rate ?? "";
+        .value =
+        sale.rate ?? "";
+
 
     document.getElementById("qtyInput")
-        .value = sale.qty ?? "";
+        .value =
+        sale.qty ?? "";
+
 
     calculateTotal();
+
 
     document.getElementById("editNote")
         .style.display = "block";
 
+
     document.getElementById("cancelEditBtn")
         .style.display = "inline-block";
+
 
     document.getElementById("saveBtn")
         .textContent = "Update";
 
-    const salesButton =
-        [...document.querySelectorAll("nav button")]
-        .find(btn =>
-            btn.textContent.trim() === "Sales"
-        );
 
-    showPage("sales",salesButton);
+    showPage(
+        "sales",
+        document.querySelectorAll("nav button")[1]
+    );
 
 }
 
 
-/* =========================
-   CANCEL EDIT
-========================= */
 
 function cancelEdit(){
 
@@ -1842,74 +2054,76 @@ function cancelEdit(){
 }
 
 
+
 /* =========================
    DELETE SALE
 ========================= */
 
 function deleteSale(id){
 
-    const sale =
-        data.sales.find(
-            s => s.id === id
-        );
-
-    if(!sale) return;
-
-    if(
-        !confirm(
-            "Delete this sales record?"
-        )
-    ){
+    if(!confirm("Delete this sales record?")){
 
         return;
 
     }
 
+
     data.sales =
-        data.sales.filter(
-            s => s.id !== id
+        data.sales.filter(s =>
+            s.id !== id
         );
+
 
     saveData();
 
     refreshAll();
 
-    showToast("Sale deleted");
+    showToast("Sales record deleted");
 
 }
 
 
+
 /* =========================
-   SALES TABLE
+   VIEW SALES
 ========================= */
 
 function renderSalesTable(){
 
-    const body =
+    const tbody =
         document.getElementById("salesTableBody");
 
-    body.innerHTML = "";
+    if(!tbody) return;
+
+
+    tbody.innerHTML = "";
+
 
     if(data.sales.length === 0){
 
-        body.innerHTML =
-            `<tr>
-                <td colspan="8" class="empty">
-                    No sales records
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8"
+                    class="empty">
+                    No sales records found
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
 
     }
 
+
     const sales =
         [...data.sales].reverse();
+
 
     sales.forEach(sale => {
 
         const tr =
             document.createElement("tr");
+
 
         tr.innerHTML = `
 
@@ -1921,95 +2135,113 @@ function renderSalesTable(){
 
             <td>${escapeHtml(sale.partName || "")}</td>
 
-            <td>${formatNumber(sale.rate)}</td>
+            <td>${Number(sale.rate || 0).toFixed(2)}</td>
 
-            <td>${formatNumber(sale.qty)}</td>
+            <td>${Number(sale.qty || 0)}</td>
 
-            <td>${formatNumber(sale.total)}</td>
+            <td>${Number(sale.total || 0).toFixed(2)}</td>
 
             <td>
+
                 <div class="table-actions">
 
                     <button
                         class="btn btn-warning btn-small"
                         onclick="editSale('${sale.id}')">
+
                         Edit
+
                     </button>
 
                     <button
                         class="btn btn-danger btn-small"
                         onclick="deleteSale('${sale.id}')">
+
                         Delete
+
                     </button>
 
                 </div>
+
             </td>
 
         `;
 
-        body.appendChild(tr);
+
+        tbody.appendChild(tr);
 
     });
 
 }
 
 
+
 /* =========================
-   CUSTOMER ADD
+   CUSTOMER MANAGEMENT
 ========================= */
 
 function addCustomer(){
 
     const name =
-        document.getElementById("customerName")
+        document.getElementById("customerNameInput")
         .value
         .trim();
 
+
     const mobile =
-        document.getElementById("customerMobile")
+        document.getElementById("customerMobileInput")
         .value
         .trim();
+
 
     if(!name){
 
         showToast("Please enter customer name");
+
         return;
 
     }
 
+
     const duplicate =
-        data.customers.some(
-            c => sameText(c.name,name)
+        data.customers.some(c =>
+            sameText(c.name,name)
         );
+
 
     if(duplicate){
 
         showToast("Customer already exists");
+
         return;
 
     }
 
+
     data.customers.push({
 
         id:
-            Date.now().toString() +
-            Math.random()
-            .toString(36)
-            .slice(2),
+            Date.now().toString(),
 
-        name: name,
+        name:
+            name,
 
-        mobile: mobile
+        mobile:
+            mobile
 
     });
 
+
     saveData();
 
-    document.getElementById("customerName")
+
+    document.getElementById("customerNameInput")
         .value = "";
 
-    document.getElementById("customerMobile")
+
+    document.getElementById("customerMobileInput")
         .value = "";
+
 
     refreshAll();
 
@@ -2018,87 +2250,87 @@ function addCustomer(){
 }
 
 
-/* =========================
-   CUSTOMER TABLE
-========================= */
 
 function renderCustomerTable(){
 
-    const body =
+    const tbody =
         document.getElementById("customerTableBody");
 
-    body.innerHTML = "";
+    if(!tbody) return;
+
+
+    tbody.innerHTML = "";
+
 
     if(data.customers.length === 0){
 
-        body.innerHTML =
-            `<tr>
-                <td colspan="3" class="empty">
-                    No customers
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3"
+                    class="empty">
+                    No customers found
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
 
     }
+
 
     data.customers.forEach(customer => {
 
         const tr =
             document.createElement("tr");
 
+
         tr.innerHTML = `
 
-            <td>${escapeHtml(customer.name)}</td>
+            <td>
+                ${escapeHtml(customer.name || "")}
+            </td>
 
-            <td>${escapeHtml(customer.mobile || "")}</td>
+            <td>
+                ${escapeHtml(customer.mobile || "")}
+            </td>
 
             <td>
 
                 <button
                     class="btn btn-danger btn-small"
                     onclick="deleteCustomer('${customer.id}')">
+
                     Delete
+
                 </button>
 
             </td>
 
         `;
 
-        body.appendChild(tr);
+
+        tbody.appendChild(tr);
 
     });
 
 }
 
 
-/* =========================
-   DELETE CUSTOMER
-========================= */
 
 function deleteCustomer(id){
 
-    const customer =
-        data.customers.find(
-            c => c.id === id
-        );
-
-    if(!customer) return;
-
-    if(
-        !confirm(
-            "Delete this customer?"
-        )
-    ){
+    if(!confirm("Delete this customer?")){
 
         return;
 
     }
 
+
     data.customers =
-        data.customers.filter(
-            c => c.id !== id
+        data.customers.filter(c =>
+            c.id !== id
         );
+
 
     saveData();
 
@@ -2109,89 +2341,189 @@ function deleteCustomer(id){
 }
 
 
+
 /* =========================
-   DASHBOARD
+   REPORT CUSTOMER
 ========================= */
 
-function updateDashboard(){
+function renderReportCustomer(){
 
-    const totalSales =
-        data.sales.length;
+    const select =
+        document.getElementById("reportCustomer");
 
-    const totalAmount =
-        data.sales.reduce(
-            (sum,sale) =>
-                sum + (Number(sale.total) || 0),
-            0
-        );
+    if(!select) return;
 
-    const customerCount =
-        data.customers.length;
 
-    const itemCount =
-        data.sales.reduce(
-            (sum,sale) =>
-                sum + (Number(sale.qty) || 0),
-            0
-        );
+    const current =
+        select.value;
 
-    document.getElementById("dashSales")
-        .textContent = totalSales;
 
-    document.getElementById("dashAmount")
-        .textContent =
-        formatNumber(totalAmount);
+    select.innerHTML =
+        '<option value="">All Customers</option>';
 
-    document.getElementById("dashCustomers")
-        .textContent = customerCount;
 
-    document.getElementById("dashItems")
-        .textContent =
-        formatNumber(itemCount);
+    data.customers.forEach(customer => {
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            customer.id;
+
+        option.textContent =
+            customer.name +
+            (
+                customer.mobile
+                ? " - " + customer.mobile
+                : ""
+            );
+
+        select.appendChild(option);
+
+    });
+
+
+    if(
+        data.customers.some(c =>
+            c.id === current
+        )
+    ){
+
+        select.value =
+            current;
+
+    }
 
 }
+
+
+
+/* =========================
+   REPORT CATEGORY
+   BLANK CATEGORY EXCLUDED
+========================= */
+
+function renderReportCategoryList(){
+
+    const select =
+        document.getElementById("reportCategory");
+
+    if(!select) return;
+
+
+    const current =
+        select.value;
+
+
+    const categories = [];
+
+
+    data.sales.forEach(sale => {
+
+        const category =
+            String(sale.category || "")
+            .trim();
+
+
+        /*
+          IMPORTANT:
+          Empty category is completely ignored.
+        */
+
+        if(!category){
+
+            return;
+
+        }
+
+
+        const exists =
+            categories.some(c =>
+                sameText(c,category)
+            );
+
+
+        if(!exists){
+
+            categories.push(category);
+
+        }
+
+    });
+
+
+    categories.sort((a,b) =>
+        a.localeCompare(
+            b,
+            undefined,
+            {sensitivity:"base"}
+        )
+    );
+
+
+    select.innerHTML =
+        '<option value="">All Categories</option>';
+
+
+    categories.forEach(category => {
+
+        if(!category){
+
+            return;
+
+        }
+
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            category;
+
+        option.textContent =
+            category;
+
+        select.appendChild(option);
+
+    });
+
+
+    if(
+        current &&
+        categories.some(c =>
+            sameText(c,current)
+        )
+    ){
+
+        select.value =
+            current;
+
+    }else{
+
+        select.value = "";
+
+    }
+
+}
+
 
 
 /* =========================
    REPORT FILTER
 ========================= */
 
-document
-.getElementById("reportCustomer")
-.addEventListener("change", renderReports);
-
-document
-.getElementById("reportCategory")
-.addEventListener("change", renderReports);
-
-
-function clearReportFilter(){
-
-    document.getElementById("reportCustomer")
-        .value = "";
-
-    document.getElementById("reportCategory")
-        .value = "";
-
-    renderReports();
-
-}
-
-
-/* =========================
-   GET FILTERED SALES
-========================= */
-
-function getFilteredSales(){
+function getFilteredReportSales(){
 
     const customerId =
         document.getElementById("reportCustomer")
         .value;
 
+
     const category =
         document.getElementById("reportCategory")
         .value
         .trim();
+
 
     return data.sales.filter(sale => {
 
@@ -2199,9 +2531,14 @@ function getFilteredSales(){
             !customerId ||
             sale.customerId === customerId;
 
+
         const categoryMatch =
             !category ||
-            sameText(sale.category,category);
+            sameText(
+                sale.category,
+                category
+            );
+
 
         return customerMatch &&
                categoryMatch;
@@ -2211,50 +2548,64 @@ function getFilteredSales(){
 }
 
 
-/* =========================
-   REPORTS
-========================= */
 
 function renderReports(){
 
-    const filteredSales =
-        getFilteredSales();
+    const filtered =
+        getFilteredReportSales();
 
-    const totalSales =
-        filteredSales.length;
 
-    const totalAmount =
-        filteredSales.reduce(
-            (sum,sale) =>
-                sum + (Number(sale.total) || 0),
-            0
-        );
+    let totalAmount = 0;
+
+
+    filtered.forEach(sale => {
+
+        totalAmount +=
+            Number(sale.total) || 0;
+
+    });
+
 
     document.getElementById("reportSales")
-        .textContent = totalSales;
+        .textContent =
+        filtered.length;
+
 
     document.getElementById("reportAmount")
         .textContent =
-        formatNumber(totalAmount);
+        totalAmount.toFixed(2);
 
 
     const summary = {};
 
-    filteredSales.forEach(sale => {
+
+    filtered.forEach(sale => {
 
         const category =
-            sale.category || "Uncategorized";
+            String(sale.category || "")
+            .trim();
+
+
+        if(!category){
+
+            return;
+
+        }
+
 
         if(!summary[category]){
 
             summary[category] = {
-                sales: 0,
-                amount: 0
+
+                sales:0,
+                amount:0
+
             };
 
         }
 
-        summary[category].sales++;
+
+        summary[category].sales += 1;
 
         summary[category].amount +=
             Number(sale.total) || 0;
@@ -2262,67 +2613,157 @@ function renderReports(){
     });
 
 
-    const body =
+    const tbody =
         document.getElementById("categoryReportBody");
 
-    body.innerHTML = "";
+
+    tbody.innerHTML = "";
+
 
     const categories =
-        Object.keys(summary).sort();
+        Object.keys(summary).sort((a,b) =>
+            a.localeCompare(
+                b,
+                undefined,
+                {sensitivity:"base"}
+            )
+        );
+
 
     if(categories.length === 0){
 
-        body.innerHTML =
-            `<tr>
-                <td colspan="3" class="empty">
-                    No report data
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3"
+                    class="empty">
+                    No report data found
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
 
     }
+
 
     categories.forEach(category => {
 
         const tr =
             document.createElement("tr");
 
+
         tr.innerHTML = `
 
-            <td>${escapeHtml(category)}</td>
-
-            <td>${summary[category].sales}</td>
+            <td>
+                ${escapeHtml(category)}
+            </td>
 
             <td>
-                ${formatNumber(summary[category].amount)}
+                ${summary[category].sales}
+            </td>
+
+            <td>
+                ${summary[category].amount.toFixed(2)}
             </td>
 
         `;
 
-        body.appendChild(tr);
+
+        tbody.appendChild(tr);
 
     });
 
 }
 
 
+
+function clearReportFilter(){
+
+    document.getElementById("reportCustomer")
+        .value = "";
+
+
+    document.getElementById("reportCategory")
+        .value = "";
+
+
+    renderReports();
+
+}
+
+
+
 /* =========================
-   BACKUP
+   DASHBOARD
 ========================= */
 
-function backupData(){
+function renderDashboard(){
+
+    let amount = 0;
+
+
+    data.sales.forEach(sale => {
+
+        amount +=
+            Number(sale.total) || 0;
+
+    });
+
+
+    const items =
+        new Set(
+            data.sales
+                .map(sale =>
+                    String(
+                        sale.partName || ""
+                    ).trim()
+                )
+                .filter(Boolean)
+        );
+
+
+    document.getElementById("dashSales")
+        .textContent =
+        data.sales.length;
+
+
+    document.getElementById("dashAmount")
+        .textContent =
+        amount.toFixed(2);
+
+
+    document.getElementById("dashCustomers")
+        .textContent =
+        data.customers.length;
+
+
+    document.getElementById("dashItems")
+        .textContent =
+        items.size;
+
+}
+
+
+
+/* =========================
+   BACKUP
+   DIRECT SHARE ON IPHONE
+========================= */
+
+async function backupData(){
 
     const backup = {
 
-        app: "Sales Record",
+        app:
+            "Sales Record",
 
-        version: 2,
+        version:
+            2,
 
         exportedAt:
             new Date().toISOString(),
 
-        data: {
+        data:{
 
             sales:
                 data.sales,
@@ -2337,47 +2778,156 @@ function backupData(){
 
     };
 
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(
-                    backup,
-                    null,
-                    2
-                )
-            ],
+
+    const json =
+        JSON.stringify(
+            backup,
+            null,
+            2
+        );
+
+
+    const fileName =
+        "sales-record-backup.json";
+
+
+    const file =
+        new File(
+            [json],
+            fileName,
             {
-                type:"application/json"
+                type:
+                    "application/json"
             }
         );
 
-    const url =
-        URL.createObjectURL(blob);
 
-    const a =
-        document.createElement("a");
+    /*
+       iPhone / Safari:
+       Try direct Share Sheet first.
+       This prevents the file from opening first.
+    */
 
-    const date =
-        new Date()
-        .toISOString()
-        .slice(0,10);
+    if(
+        navigator.share &&
+        navigator.canShare
+    ){
 
-    a.href = url;
+        try{
 
-    a.download =
-        `Sales-Record-Backup-${date}.json`;
+            if(
+                navigator.canShare({
+                    files:[file]
+                })
+            ){
 
-    document.body.appendChild(a);
+                await navigator.share({
 
-    a.click();
+                    files:[file],
 
-    a.remove();
+                    title:
+                        "Sales Record Backup",
 
-    URL.revokeObjectURL(url);
+                    text:
+                        "Sales Record backup file"
 
-    showToast("Backup created");
+                });
+
+
+                showToast(
+                    "Backup ready to share"
+                );
+
+                return;
+
+            }
+
+        }catch(error){
+
+            /*
+              User cancelled Share Sheet.
+              Do not show an error.
+            */
+
+            if(
+                error &&
+                error.name === "AbortError"
+            ){
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       Fallback:
+       Download the JSON file.
+       It does NOT open the file.
+    */
+
+    try{
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const a =
+            document.createElement("a");
+
+        a.href =
+            url;
+
+        a.download =
+            fileName;
+
+        a.style.display =
+            "none";
+
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+
+        setTimeout(() => {
+
+            URL.revokeObjectURL(url);
+
+        },1000);
+
+
+        showToast(
+            "Backup file downloaded"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Backup failed"
+        );
+
+    }
 
 }
+
 
 
 /* =========================
@@ -2389,158 +2939,418 @@ function restoreData(event){
     const file =
         event.target.files[0];
 
-    if(!file) return;
+
+    if(!file){
+
+        return;
+
+    }
+
 
     const reader =
         new FileReader();
 
-    reader.onload = function(e){
 
-        try{
+    reader.onload =
+        function(){
 
-            const backup =
-                JSON.parse(e.target.result);
+            try{
 
-            const restored =
-                backup.data || backup;
+                const backup =
+                    JSON.parse(
+                        reader.result
+                    );
 
-            if(
-                !restored ||
-                !Array.isArray(restored.sales) ||
-                !Array.isArray(restored.customers)
-            ){
 
-                throw new Error(
-                    "Invalid backup"
+                if(
+                    !backup ||
+                    !backup.data
+                ){
+
+                    throw new Error(
+                        "Invalid backup"
+                    );
+
+                }
+
+
+                if(
+                    !Array.isArray(
+                        backup.data.sales
+                    ) ||
+                    !Array.isArray(
+                        backup.data.customers
+                    )
+                ){
+
+                    throw new Error(
+                        "Invalid backup structure"
+                    );
+
+                }
+
+
+                data.sales =
+                    backup.data.sales;
+
+
+                data.customers =
+                    backup.data.customers;
+
+
+                data.productMaster =
+                    Array.isArray(
+                        backup.data.productMaster
+                    )
+                    ? backup.data.productMaster
+                    : [];
+
+
+                rebuildProductMasterFromSales();
+
+
+                saveData();
+
+                refreshAll();
+
+
+                showToast(
+                    "Backup restored successfully"
+                );
+
+            }catch(error){
+
+                console.error(error);
+
+                alert(
+                    "Invalid backup file."
                 );
 
             }
 
-            if(
-                !confirm(
-                    "Restore backup? Current data will be replaced."
-                )
-            ){
 
-                event.target.value = "";
+            event.target.value = "";
 
-                return;
+        };
 
-            }
-
-            data.sales =
-                restored.sales;
-
-            data.customers =
-                restored.customers;
-
-            data.productMaster =
-                Array.isArray(
-                    restored.productMaster
-                )
-                ? restored.productMaster
-                : [];
-
-
-            if(
-                data.productMaster.length === 0
-            ){
-
-                data.sales.forEach(sale => {
-
-                    if(
-                        sale.category &&
-                        sale.partName
-                    ){
-
-                        const exists =
-                            data.productMaster.some(
-                                item =>
-                                    sameText(
-                                        item.category,
-                                        sale.category
-                                    )
-                                    &&
-                                    sameText(
-                                        item.partName,
-                                        sale.partName
-                                    )
-                            );
-
-                        if(!exists){
-
-                            data.productMaster.push({
-
-                                category:
-                                    sale.category,
-
-                                partName:
-                                    sale.partName,
-
-                                rate:
-                                    Number(sale.rate) || 0
-
-                            });
-
-                        }
-
-                    }
-
-                });
-
-            }
-
-            saveData();
-
-            clearSaleForm(false);
-
-            refreshAll();
-
-            showToast(
-                "Data restored successfully"
-            );
-
-        }catch(error){
-
-            alert(
-                "Invalid backup file."
-            );
-
-            console.error(error);
-
-        }
-
-        event.target.value = "";
-
-    };
 
     reader.readAsText(file);
 
 }
 
 
+
 /* =========================
-   FORMAT NUMBER
+   ENTER KEY NAVIGATION
 ========================= */
 
-function formatNumber(value){
+function focusNextField(currentId){
 
-    const number =
-        Number(value) || 0;
+    const order = [
 
-    return number.toLocaleString(
-        undefined,
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+        "saleDate",
+        "customerSelect",
+        "categoryInput",
+        "partInput",
+        "rateInput",
+        "qtyInput"
+
+    ];
+
+
+    const index =
+        order.indexOf(currentId);
+
+
+    if(index === -1){
+
+        return;
+
+    }
+
+
+    /*
+       If Quantity is the last field,
+       Enter saves the sale.
+    */
+
+    if(index === order.length - 1){
+
+        saveSale();
+
+        return;
+
+    }
+
+
+    const nextId =
+        order[index + 1];
+
+
+    const next =
+        document.getElementById(nextId);
+
+
+    if(!next){
+
+        return;
+
+    }
+
+
+    next.focus();
+
+
+    /*
+       Select the text in normal input fields
+       so the user can type immediately.
+    */
+
+    if(
+        next.tagName === "INPUT" &&
+        next.type !== "date"
+    ){
+
+        setTimeout(() => {
+
+            try{
+
+                next.select();
+
+            }catch(error){}
+
+        },50);
+
+    }
 
 }
 
 
+
+/*
+   Enter on text/date/number fields
+*/
+
+[
+    "saleDate",
+    "categoryInput",
+    "partInput",
+    "rateInput",
+    "qtyInput"
+].forEach(id => {
+
+    const element =
+        document.getElementById(id);
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key !== "Enter"){
+
+                return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            /*
+               Category:
+               refresh Part suggestions
+            */
+
+            if(id === "categoryInput"){
+
+                renderPartList();
+
+            }
+
+
+            /*
+               Part:
+               automatically load saved rate
+            */
+
+            if(id === "partInput"){
+
+                autoFillRate();
+
+            }
+
+
+            focusNextField(id);
+
+        }
+    );
+
+});
+
+
+
+/*
+   Customer select:
+   Enter works where the browser sends
+   the keyboard event.
+*/
+
+const customerSelect =
+    document.getElementById(
+        "customerSelect"
+    );
+
+
+customerSelect.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key !== "Enter"){
+
+            return;
+
+        }
+
+
+        event.preventDefault();
+
+        focusNextField(
+            "customerSelect"
+        );
+
+    }
+);
+
+
+
+/*
+   iPhone Safari normally confirms a
+   select through its picker rather than
+   a keyboard Enter.
+
+   After customer selection, move to
+   Category automatically.
+*/
+
+customerSelect.addEventListener(
+    "change",
+    function(){
+
+        if(this.value){
+
+            setTimeout(() => {
+
+                const category =
+                    document.getElementById(
+                        "categoryInput"
+                    );
+
+                if(category){
+
+                    category.focus();
+
+                }
+
+            },100);
+
+        }
+
+    }
+);
+
+
+
+/*
+   Category changes:
+   update Part suggestions
+*/
+
+document.getElementById(
+    "categoryInput"
+).addEventListener(
+    "input",
+    function(){
+
+        renderPartList();
+
+    }
+);
+
+
+
+/*
+   Part changes:
+   auto-fill rate when matching part
+   exists.
+*/
+
+document.getElementById(
+    "partInput"
+).addEventListener(
+    "input",
+    function(){
+
+        autoFillRate();
+
+    }
+);
+
+
+
+/*
+   Rate / Quantity:
+   calculate total
+*/
+
+document.getElementById(
+    "rateInput"
+).addEventListener(
+    "input",
+    calculateTotal
+);
+
+
+document.getElementById(
+    "qtyInput"
+).addEventListener(
+    "input",
+    calculateTotal
+);
+
+
+
+/*
+   Reports update immediately
+   when filters change.
+*/
+
+document.getElementById(
+    "reportCustomer"
+).addEventListener(
+    "change",
+    renderReports
+);
+
+
+document.getElementById(
+    "reportCategory"
+).addEventListener(
+    "change",
+    renderReports
+);
+
+
+
 /* =========================
-   ESCAPE HTML
+   HTML ESCAPE
 ========================= */
 
 function escapeHtml(value){
@@ -2555,19 +3365,18 @@ function escapeHtml(value){
 }
 
 
+
 /* =========================
-   REFRESH EVERYTHING
+   REFRESH ALL
 ========================= */
 
 function refreshAll(){
 
-    renderCustomerDropdown();
+    renderDashboard();
 
-    renderReportCustomerDropdown();
+    renderCustomerSelect();
 
     renderCategoryList();
-
-    renderReportCategoryDropdown();
 
     renderPartList();
 
@@ -2575,15 +3384,18 @@ function refreshAll(){
 
     renderCustomerTable();
 
-    updateDashboard();
+    renderReportCustomer();
+
+    renderReportCategoryList();
 
     renderReports();
 
 }
 
 
+
 /* =========================
-   START APP
+   START
 ========================= */
 
 loadData();
@@ -2591,124 +3403,9 @@ loadData();
 setToday();
 
 refreshAll();
-/* =========================
-   ENTER KEY NAVIGATION
-========================= */
 
-const enterOrder = [
-    "saleDate",
-    "customerSelect",
-    "categoryInput",
-    "partInput",
-    "rateInput",
-    "qtyInput"
-];
-
-enterOrder.forEach((id, index) => {
-
-    const element =
-        document.getElementById(id);
-
-    if(!element) return;
-
-    element.addEventListener("keydown", function(event){
-
-        if(event.key !== "Enter"){
-            return;
-        }
-
-        event.preventDefault();
-
-        /*
-         * Category/Part Name:
-         * If user typed a value that exactly matches
-         * a saved suggestion, keep that value.
-         */
-
-        if(id === "categoryInput"){
-
-            renderPartList();
-
-        }
-
-        if(id === "partInput"){
-
-            const category =
-                document.getElementById("categoryInput")
-                .value
-                .trim();
-
-            const part =
-                this.value.trim();
-
-            const product =
-                findProduct(category,part);
-
-            if(product){
-
-                document.getElementById("rateInput")
-                    .value =
-                    Number(product.rate) || 0;
-
-                calculateTotal();
-
-            }
-
-        }
-
-        /*
-         * Move to next field.
-         */
-
-        const nextId =
-            enterOrder[index + 1];
-
-        if(nextId){
-
-            const nextElement =
-                document.getElementById(nextId);
-
-            if(nextElement){
-
-                nextElement.focus();
-
-                /*
-                 * Select existing text in normal inputs
-                 * so it can be replaced easily.
-                 */
-
-                if(
-                    nextElement.tagName === "INPUT" &&
-                    nextElement.type !== "date"
-                ){
-
-                    setTimeout(() => {
-
-                        try{
-                            nextElement.select();
-                        }catch(e){}
-
-                    },50);
-
-                }
-
-            }
-
-        }else{
-
-            /*
-             * Enter on Quantity:
-             * Save the entry.
-             */
-
-            saveSale();
-
-        }
-
-    });
-
-});
 </script>
 
 </body>
+
 </html>
