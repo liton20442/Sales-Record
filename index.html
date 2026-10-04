@@ -1196,41 +1196,72 @@ function renderCategoryList(){
    REPORT CATEGORY DROPDOWN
 ========================= */
 
-function renderReportCategoryDropdown(){
+function renderReportCategoryList(){
 
     const select =
         document.getElementById("reportCategory");
 
-    const current =
-        select.value;
+    if(!select) return;
+
+    const currentValue = select.value;
+
+    const categories = [];
+
+    data.sales.forEach(sale => {
+
+        const category =
+            String(sale.category || "").trim();
+
+        // Blank category বাদ
+        if(!category){
+            return;
+        }
+
+        const exists =
+            categories.some(c =>
+                sameText(c, category)
+            );
+
+        if(!exists){
+            categories.push(category);
+        }
+
+    });
+
+    categories.sort((a,b) =>
+        a.localeCompare(b, undefined, {
+            sensitivity:"base"
+        })
+    );
 
     select.innerHTML =
-        `<option value="">All Categories</option>`;
+        '<option value="">All Categories</option>';
 
-    getCategories().forEach(category => {
+    categories.forEach(category => {
 
         const option =
             document.createElement("option");
 
         option.value = category;
+        option.textContent = category;
 
         select.appendChild(option);
 
     });
 
+    // আগের নির্বাচন থাকলে সেটি রাখবে
     if(
-        current &&
-        getCategories().some(c =>
-            sameText(c,current)
+        currentValue &&
+        categories.some(c =>
+            sameText(c, currentValue)
         )
     ){
-
-        select.value = current;
-
+        select.value = currentValue;
+    }else{
+        select.value = "";
     }
 
 }
-
 
 /* =========================
    PART LIST
