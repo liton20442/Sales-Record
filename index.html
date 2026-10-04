@@ -3076,11 +3076,24 @@ function focusNextField(currentId){
 
     if(index === order.length - 1){
 
-        saveSale();
+    saveSale();
 
-        return;
+    setTimeout(() => {
 
-    }
+        const category =
+            document.getElementById("categoryInput");
+
+        if(category){
+
+            category.focus();
+
+        }
+
+    },100);
+
+    return;
+
+}
 
 
     const nextId =
